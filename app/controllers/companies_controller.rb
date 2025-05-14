@@ -1,5 +1,4 @@
 class CompaniesController < ApplicationController
-  before_action :admin_only, only: [:new, :create, :edit, :update, :destroy]
   before_action :set_company, only: [:show, :edit, :update, :destroy]
   before_action :set_available_partners, only: [:edit, :update, :new, :create]
 
@@ -16,7 +15,6 @@ class CompaniesController < ApplicationController
   # GET /companies/:id
   def show
     @viewed_company = Company.find(params[:id])
-    @users = @viewed_company.users
     respond_to do |format|
       format.html  # This will render the Haml view
       format.json { render json: @company }

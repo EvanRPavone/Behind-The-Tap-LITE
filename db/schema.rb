@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_01_26_193609) do
+ActiveRecord::Schema[7.1].define(version: 2025_05_14_180659) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -21,12 +21,10 @@ ActiveRecord::Schema[7.1].define(version: 2025_01_26_193609) do
     t.string "other_additions"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "user_id"
     t.decimal "hop_addition_1_amount", precision: 10, scale: 2
     t.decimal "hop_addition_2_amount", precision: 10, scale: 2
     t.text "notes"
     t.index ["brew_id"], name: "index_addition_logs_on_brew_id"
-    t.index ["user_id"], name: "index_addition_logs_on_user_id"
   end
 
   create_table "boil_logs", force: :cascade do |t|
@@ -47,12 +45,10 @@ ActiveRecord::Schema[7.1].define(version: 2025_01_26_193609) do
     t.decimal "post_boil_ph"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "user_id"
     t.decimal "original_grav", precision: 5, scale: 3
     t.text "notes"
     t.string "stage", default: "preboil", null: false
     t.index ["brew_id"], name: "index_boil_logs_on_brew_id"
-    t.index ["user_id"], name: "index_boil_logs_on_user_id"
   end
 
   create_table "brews", force: :cascade do |t|
@@ -93,7 +89,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_01_26_193609) do
     t.datetime "log_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "user_id"
     t.string "stage"
     t.integer "day"
     t.decimal "plato"
@@ -121,24 +116,13 @@ ActiveRecord::Schema[7.1].define(version: 2025_01_26_193609) do
     t.string "name"
     t.string "category"
     t.decimal "amount", precision: 10, scale: 2
+    t.decimal "lb_per_bag", precision: 10, scale: 2
+    t.boolean "on_order", default: false
     t.bigint "company_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "brand"
-    t.string "type_of_unit"
-    t.decimal "weight_per_unit", precision: 10, scale: 2
-    t.decimal "total_weight", precision: 10, scale: 2
     t.index ["company_id"], name: "index_ingredients_on_company_id"
-  end
-
-  create_table "invitations", force: :cascade do |t|
-    t.string "email"
-    t.string "role"
-    t.string "token"
-    t.datetime "expires_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "company_id"
   end
 
   create_table "keg_shares", force: :cascade do |t|
@@ -175,10 +159,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_01_26_193609) do
     t.decimal "mash_ph"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "user_id"
     t.text "notes"
     t.index ["brew_id"], name: "index_mash_logs_on_brew_id"
-    t.index ["user_id"], name: "index_mash_logs_on_user_id"
   end
 
   create_table "partnerships", force: :cascade do |t|
@@ -218,33 +200,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_01_26_193609) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "users", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "email", default: "", null: false
-    t.string "encrypted_password", default: "", null: false
-    t.string "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
-    t.integer "role", default: 0
-    t.integer "company_id"
-    t.string "first_name"
-    t.string "last_name"
-    t.datetime "invitation_created_at"
-    t.datetime "invitation_sent_at"
-    t.datetime "invitation_accepted_at"
-    t.integer "invitation_limit"
-    t.string "invited_by_type"
-    t.bigint "invited_by_id"
-    t.integer "invitations_count", default: 0
-    t.string "invitation_token"
-    t.string "password_digest"
-    t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["invited_by_id"], name: "index_users_on_invited_by_id"
-    t.index ["invited_by_type", "invited_by_id"], name: "index_users_on_invited_by"
-    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
-  end
-
   create_table "vessels", force: :cascade do |t|
     t.string "name"
     t.decimal "size_bbl", precision: 10, scale: 2
@@ -265,10 +220,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_01_26_193609) do
     t.integer "yeast_generation"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "user_id"
     t.text "notes"
     t.index ["brew_id"], name: "index_yeast_and_knockout_logs_on_brew_id"
-    t.index ["user_id"], name: "index_yeast_and_knockout_logs_on_user_id"
   end
 
   add_foreign_key "addition_logs", "brews"

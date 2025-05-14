@@ -3,7 +3,6 @@ class Company < ApplicationRecord
   friendly_id :name, use: :slugged
 
   # Relationships
-  has_many :users
   has_many :recipes
   has_many :vessels
   has_many :brews
@@ -29,8 +28,4 @@ class Company < ApplicationRecord
     name_changed? || slug.blank?
   end
 
-  # Method to get all admin users for the company
-  def admins
-    users.where(role: :admin)
-  end
 end

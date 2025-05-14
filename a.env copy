@@ -1,0 +1,3 @@
+POSTGRES_USER=postgres username
+POSTGRES_PASSWORD=password
+POSTGRES_DB=behind_the_tap_lite_development

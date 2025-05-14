@@ -3,23 +3,11 @@ Rails.application.routes.draw do
   # # resources :invitations, only: [:new, :create]
   # get 'accept_invitation', to: 'invitations#accept'
   # post 'complete_registration', to: 'invitations#complete_registration'
-  get 'users/set_password/:invitation_token', to: 'users#set_password', as: 'set_password'
-  patch 'users/update_password/:invitation_token', to: 'users#update_password', as: 'update_password'
   # Root and authentication
   root to: 'home#welcome'
-  authenticated :user do
-    root to: 'dashboards#show', as: :authenticated_root
-  end
-  devise_for :users, controllers: {
-    sessions: 'users/sessions',
-    registrations: 'users/registrations',
-    passwords: 'users/passwords'
-  }
 
   # Scoped routes based on company name
   scope '/:company_name' do
-    resources :users, only: [:index, :show, :edit, :update, :destroy]
-
     # Move set_password and update_password outside company scope
 
     # Invitation routes

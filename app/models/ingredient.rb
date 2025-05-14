@@ -11,13 +11,7 @@ class Ingredient < ApplicationRecord
   # Validations
   validates :name, presence: true
   validates :category, inclusion: { in: CATEGORIES, allow_nil: true }
-  validates :type_of_unit, inclusion: { in: UNIT_TYPES, message: "%{value} is not a valid unit type" }, presence: true
   validates :amount, numericality: { greater_than_or_equal_to: 0 }
-  validates :weight_per_unit, numericality: { greater_than_or_equal_to: 0, allow_nil: true }
-  validates :total_weight, numericality: { greater_than_or_equal_to: 0, allow_nil: true }
-
-
-  after_save :update_total_weight
 
   # Scopes
   scope :sorted_by_category, -> {
