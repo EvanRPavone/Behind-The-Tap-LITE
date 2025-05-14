@@ -1,0 +1,30 @@
+- if logs.any?
+  .table-responsive
+    %table.table.table-striped.table-hover
+      %thead
+        %tr.bg-light
+          %th Created By
+          %th Whirlpool Start Time
+          %th Knockout Start Time
+          %th Knockout End Time
+          %th Trub Volume
+          %th Yeast Source
+          %th Yeast ID
+          %th Yeast Generation
+          %th Notes
+          %th Logged At
+      %tbody
+        - logs.each do |log|
+          %tr
+            %td= log.user&.name || "Unknown"
+            %td= log.whirlpool_start_time&.strftime("%B %d, %Y %I:%M %p") || "N/A"
+            %td= log.knockout_start_time&.strftime("%B %d, %Y %I:%M %p") || "N/A"
+            %td= log.knockout_end_time&.strftime("%B %d, %Y %I:%M %p") || "N/A"
+            %td= log.trub_volume || "N/A"
+            %td= log.yeast_source.presence || "N/A"
+            %td= log.yeast&.name || "Not Specified"
+            %td= log.yeast_generation || "N/A"
+            %td= log.notes.presence || "No notes available"
+            %td= log.created_at.strftime("%B %d, %Y %I:%M %p")
+- else
+  %p.text-muted No yeast and knockout logs available.

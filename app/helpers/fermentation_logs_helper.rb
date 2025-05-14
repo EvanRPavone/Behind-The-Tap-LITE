@@ -1,0 +1,2 @@
+module FermentationLogsHelper
+end

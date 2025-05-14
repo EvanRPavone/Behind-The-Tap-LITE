@@ -1,0 +1,69 @@
+%h2.text-primary.mb-3= @viewed_company.name
+
+.row.g-4
+  / **Company Details Section**
+  .col-md-6
+    .border.rounded.p-3.h-100
+      %h5.text-primary.mb-3 Company Details
+      %table.table.table-borderless.mb-0
+        %tbody
+          %tr
+            %td.text-muted Name:
+            %td= @viewed_company.name
+          %tr
+            %td.text-muted Created At:
+            %td= @viewed_company.created_at.strftime("%B %d, %Y")
+          %tr
+            %td.text-muted Last Updated:
+            %td= @viewed_company.updated_at.strftime("%B %d, %Y")
+
+  / **Partner Companies Section**
+  .col-md-6
+    .border.rounded.p-3.h-100
+      %h5.text-primary.mb-3 Partner Companies
+      - if @viewed_company.partnerships.any?
+        %ul.list-group
+          - @viewed_company.partnerships.each do |partnership|
+            %li.list-group-item
+              = link_to partnership.partner.name, company_path(id: partnership.partner.id, company_name: current_user.company.slug), class: "text-decoration-none"
+      - else
+        %p.text-muted No partners assigned yet.
+
+%hr/
+
+/ **Users in Company Section**
+%h5.text-primary.mb-3 Users in Company
+.table-responsive
+  %table.table.table-hover.table-striped.text-center
+    %thead
+      %tr
+        %th Name
+        %th Email
+        %th Role
+    %tbody
+      - @viewed_company.users.each do |user|
+        %tr
+          %td= "#{user.first_name} #{user.last_name}"
+          %td= user.email
+          %td= user.role.titleize
+
+%hr/
+
+/ **Actions (Only Visible for Admins & Managers)**
+- if current_user.admin? || current_user.manager?
+  .d-flex.justify-content-end.gap-2
+    = link_to edit_company_path(id: @viewed_company.id, company_name: current_user.company.slug), class: "btn btn-sm btn-outline-warning d-flex align-items-center gap-2" do
+      %i.fas.fa-edit
+      Edit
+    = link_to company_path(id: @viewed_company.id, company_name: current_user.company.slug), method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-sm btn-outline-danger d-flex align-items-center gap-2" do
+      %i.fas.fa-trash
+      Delete
+    = link_to edit_company_path(id: @viewed_company.id, company_name: current_user.company.slug), class: "btn btn-sm btn-outline-secondary d-flex align-items-center gap-2" do
+      %i.fas.fa-user-friends
+      Add Partner
+
+/ **Back Button**
+.d-flex.justify-content-start.mt-3
+  = link_to companies_path(company_name: current_user.company.slug), class: "text-secondary text-decoration-none d-flex align-items-center gap-2" do
+    %i.fas.fa-arrow-left
+    Back to Companies

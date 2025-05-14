@@ -1,0 +1,40 @@
+- if fermentation_log
+  %h5.card-title.text-primary Fermentation Log Details
+  .row.g-2
+    .col-md-6
+      %p.mb-2
+        %strong Log Date:
+        = fermentation_log.log_date&.strftime("%B %d, %Y %I:%M %p") || 'N/A'
+      %p.mb-2
+        %strong OG Was:
+        = number_with_precision(fermentation_log.og_was, precision: 3) || 'N/A'
+      %p.mb-2
+        %strong OG Is:
+        = number_with_precision(fermentation_log.og_is, precision: 3) || 'N/A'
+      %p.mb-2
+        %strong Carbed Volume:
+        = number_with_precision(fermentation_log.carbed_vol, precision: 2) || 'N/A'
+    .col-md-6
+      %p.mb-2
+        %strong Status:
+        = fermentation_log.status.titleize || 'N/A'
+      %p.mb-2
+        %strong Day:
+        = fermentation_log.day || 'N/A'
+      %p.mb-2
+        %strong Plato:
+        = number_with_precision(fermentation_log.plato, precision: 1) || 'N/A'
+      %p.mb-2
+        %strong pH:
+        = number_with_precision(fermentation_log.ph, precision: 2) || 'N/A'
+      %p.mb-2
+        %strong Tank Temperature:
+        = number_with_precision(fermentation_log.tank_temp, precision: 1) || 'N/A'
+      %p.mb-2
+        %strong Action:
+        = fermentation_log.action.presence || 'N/A'
+      %p.mb-2
+        %strong Notes:
+        = fermentation_log.notes.presence || 'No notes available'
+- else
+  .text-muted No fermentation log available.

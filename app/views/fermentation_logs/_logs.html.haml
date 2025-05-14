@@ -1,0 +1,33 @@
+- if logs.any?
+  %table.table.table-hover.table-bordered.table-striped.text-center.mt-3
+    %thead.thead-dark
+      %tr
+        %th{scope: 'col'} Log Date
+        %th{scope: 'col'} OG Was
+        %th{scope: 'col'} OG Is
+        %th{scope: 'col'} Carbed Volume
+        %th{scope: 'col'} Status
+        %th{scope: 'col'} Day
+        %th{scope: 'col'} Plato
+        %th{scope: 'col'} pH
+        %th{scope: 'col'} Tank Temp
+        %th{scope: 'col'} Action
+        %th{scope: 'col'} Notes
+
+    %tbody
+      - logs.each do |log|
+        %tr
+          %td= log.log_date&.strftime("%B %d, %Y %I:%M %p") || 'N/A'
+          %td= log.og_was.present? ? number_with_precision(log.og_was, precision: 3) : 'N/A'
+          %td= log.og_is.present? ? number_with_precision(log.og_is, precision: 3) : 'N/A'
+          %td= log.carbed_vol.present? ? number_with_precision(log.carbed_vol, precision: 2) : 'N/A'
+          %td= log.status&.titleize || 'N/A'
+          %td= log.day.presence || 'N/A'
+          %td= log.plato.present? ? number_with_precision(log.plato, precision: 1) : 'N/A'
+          %td= log.ph.present? ? number_with_precision(log.ph, precision: 2) : 'N/A'
+          %td= log.tank_temp.present? ? number_with_precision(log.tank_temp, precision: 1) : 'N/A'
+          %td= log.action.presence || 'N/A'
+          %td= log.notes.presence || 'No notes available'
+
+- else
+  .text-muted No fermentation logs available.

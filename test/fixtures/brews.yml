@@ -1,0 +1,29 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  target_abv: 9.99
+  size_bbl: 9.99
+  no_halves: 1
+  no_sixtels: 1
+  no_cases_can: 1
+  no_twelve_can: 1
+  tap_no: 1
+  ingredients: MyText
+  brew_date: 2024-09-19
+  keg_pkg_date: 2024-09-19
+  company: one
+
+two:
+  name: MyString
+  target_abv: 9.99
+  size_bbl: 9.99
+  no_halves: 1
+  no_sixtels: 1
+  no_cases_can: 1
+  no_twelve_can: 1
+  tap_no: 1
+  ingredients: MyText
+  brew_date: 2024-09-19
+  keg_pkg_date: 2024-09-19
+  company: two

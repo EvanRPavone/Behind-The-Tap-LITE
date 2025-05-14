@@ -1,0 +1,49 @@
+/ ** Page Header & Actions **
+.d-flex.justify-content-between.align-items-center.mb-3
+  %h3.text-primary.mb-0 Owned Kegs
+
+%hr/
+/ ** Owned Kegs Section **
+- if @owned_kegs.any?
+  .table-responsive
+    %table.table.table-hover.table-bordered.text-center.shadow-sm
+      %thead.thead-light
+        %tr
+          %th Recipe
+          %th Full Barrels
+          %th Half Barrels
+          %th Sixtels
+      %tbody
+        - @owned_kegs.each do |keg_data|
+          %tr
+            %td= link_to keg_data[:recipe_name], keg_inventory_show_path(company_name: @company.slug, recipe_id: keg_data[:recipe_id]), class: 'text-decoration-none text-primary'
+            %td= keg_data[:keg_sizes]['Full Barrels']
+            %td= keg_data[:keg_sizes]['Half Barrels']
+            %td= keg_data[:keg_sizes]['Sixtels']
+- else
+  %p.text-muted.text-center No kegs in inventory.
+
+%hr.mt-5/
+
+/ ** Shared Kegs Section **
+%h3.text-primary.mb-3 Shared Kegs
+- if @shared_kegs.any?
+  .table-responsive
+    %table.table.table-hover.table-bordered.text-center.shadow-sm
+      %thead.thead-light
+        %tr
+          %th Recipe
+          %th Shared From
+          %th Full Barrels
+          %th Half Barrels
+          %th Sixtels
+      %tbody
+        - @shared_kegs.each do |keg_data|
+          %tr
+            %td= keg_data[:recipe_name]
+            %td= keg_data[:shared_from]
+            %td= keg_data[:keg_sizes]['Full Barrels']
+            %td= keg_data[:keg_sizes]['Half Barrels']
+            %td= keg_data[:keg_sizes]['Sixtels']
+- else
+  %p.text-muted.text-center No shared kegs available.

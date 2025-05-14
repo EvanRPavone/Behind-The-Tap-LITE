@@ -1,0 +1,43 @@
+%h2.text-primary Edit Mash Log Entry for Brew #{@brew.batch_no}
+
+= form_with model: @mash_log, url: brew_mash_log_path(company_name: @brew.company.slug, brew_id: @brew, id: @mash_log), local: true, method: :patch do |f|
+  - if @mash_log.errors.any?
+    .alert.alert-danger
+      %h4= "#{pluralize(@mash_log.errors.count, 'error')} prevented this mash log from being updated:"
+      %ul.mb-0
+        - @mash_log.errors.full_messages.each do |message|
+          %li= message
+
+  .card.shadow-sm.p-4
+    .card-body
+      %h3.mb-3.text-secondary Mash Log Details
+
+      .row.g-3
+        .col-md-6
+          .form-group
+            = f.label :mash_in_time, 'Mash In Time', class: 'form-label fw-bold'
+            = f.datetime :mash_in_time, class: 'form-control'
+
+        .col-md-6
+          .form-group
+            = f.label :mash_complete_time, 'Mash Complete Time', class: 'form-label fw-bold'
+            = f.datetime_field :mash_complete_time, class: 'form-control'
+
+        .col-md-6
+          .form-group
+            = f.label :mash_temp, 'Mash Temperature (°F)', class: 'form-label fw-bold'
+            = f.number_field :mash_temp, step: 0.1, class: 'form-control', placeholder: 'Enter Mash Temperature'
+
+        .col-md-6
+          .form-group
+            = f.label :mash_ph, 'Mash pH', class: 'form-label fw-bold'
+            = f.number_field :mash_ph, step: 0.01, class: 'form-control', placeholder: 'Enter Mash pH Level'
+
+        .col-md-12
+          .form-group
+            = f.label :notes, "Notes", class: 'form-label fw-bold'
+            = f.text_area :notes, class: 'form-control', rows: 3, placeholder: "Enter any observations or issues for this stage"
+
+      .mt-4.text-center
+        = f.submit 'Update Mash Log', class: 'btn btn-primary px-4'
+        = link_to 'Cancel', brew_path(company_name: @brew.company.slug, id: @brew), class: 'btn btn-outline-secondary ms-2 px-4'

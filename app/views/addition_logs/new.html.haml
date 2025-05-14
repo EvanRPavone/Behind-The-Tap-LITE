@@ -1,0 +1,35 @@
+%h2.text-primary New Addition Log Entry for Brew #{@brew.batch_no}
+
+.card.shadow-sm.p-4
+  .card-body
+    = form_with model: @addition_log, url: brew_addition_logs_path(company_name: @brew.company.slug, brew_id: @brew), local: true do |f|
+      .row.g-3
+        .col-md-6
+          .form-group
+            = f.label :hop_addition_1_id, 'Hop Addition 1', class: 'form-label fw-bold'
+            = f.collection_select :hop_addition_1_id, @hops, :id, :display_name, { prompt: 'Select a hop' }, { class: 'form-control' }
+          .form-group
+            = f.label :hop_addition_1_amount, 'Amount (lbs)', class: 'form-label fw-bold'
+            = f.number_field :hop_addition_1_amount, step: 0.1, class: 'form-control', placeholder: 'Enter amount for Hop Addition 1'
+
+        .col-md-6
+          .form-group
+            = f.label :hop_addition_2_id, 'Hop Addition 2', class: 'form-label fw-bold'
+            = f.collection_select :hop_addition_2_id, @hops, :id, :display_name, { prompt: 'Select a hop' }, { class: 'form-control' }
+          .form-group
+            = f.label :hop_addition_2_amount, 'Amount (lbs)', class: 'form-label fw-bold'
+            = f.number_field :hop_addition_2_amount, step: 0.1, class: 'form-control', placeholder: 'Enter amount for Hop Addition 2'
+
+        .col-md-12
+          .form-group
+            = f.label :other_additions, 'Other Additions', class: 'form-label fw-bold'
+            = f.text_field :other_additions, class: 'form-control', placeholder: 'Enter other additions'
+
+        .col-md-12
+          .form-group
+            = f.label :notes, "Notes", class: 'form-label fw-bold'
+            = f.text_area :notes, class: 'form-control', placeholder: "Enter any observations or issues"
+
+      .mt-4.text-center
+        = f.submit 'Save Addition Log', class: 'btn btn-primary px-4'
+        = link_to 'Cancel', brew_path(company_name: @brew.company.slug, id: @brew), class: 'btn btn-outline-secondary ms-2 px-4'

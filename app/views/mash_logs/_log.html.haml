@@ -1,0 +1,31 @@
+- if mash_log
+  %h5.card-title.text-primary Mash Log Details
+  .row.g-2
+    .col-md-6
+      %p.mb-2
+        %strong Created By:
+        = mash_log.user.name
+    .col-md-6
+      %p.mb-2
+        %strong Mash In Time:
+        = mash_log.mash_in_time&.strftime("%B %d, %Y %I:%M %p") || 'N/A'
+  .row.g-2
+    .col-md-6
+      %p.mb-2
+        %strong Mash Complete Time:
+        = mash_log.mash_complete_time&.strftime("%B %d, %Y %I:%M %p") || 'N/A'
+    .col-md-6
+      %p.mb-2
+        %strong Mash Temperature:
+        = mash_log.mash_temp || 'N/A'
+  .row.g-2
+    .col-md-6
+      %p.mb-2
+        %strong Mash pH:
+        = mash_log.mash_ph || 'N/A'
+    .col-md-6
+      %p.mb-2
+        %strong Notes:
+        = mash_log.notes.presence || 'No notes available'
+- else
+  .text-muted No mash log data available.

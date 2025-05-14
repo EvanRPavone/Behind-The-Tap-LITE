@@ -1,0 +1,18 @@
+%h2.text-primary.mb-3 Invite a New User
+
+.card.shadow-sm.p-3
+  .card-body
+    = form_with model: @user, url: invitations_path(company_name: @company.slug), local: true do |f|
+      .row.g-3
+        .col-md-6
+          .form-group
+            = f.label :email, "User's Email", class: "form-label"
+            = f.email_field :email, class: "form-control", required: true, placeholder: "Enter user’s email"
+        .col-md-6
+          .form-group
+            = f.label :role, "Role", class: "form-label"
+            = f.select :role, User.roles.keys.map { |r| [r.humanize, r] }, {}, class: "form-control", required: true
+
+      / Submit Button (Stacked Properly on Mobile)
+      .mt-3.d-flex.justify-content-end
+        = f.submit "Send Invitation", class: "btn btn-primary px-4"

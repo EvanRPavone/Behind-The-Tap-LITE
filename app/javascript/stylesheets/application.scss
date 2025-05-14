@@ -1,0 +1,31 @@
+
+// 
+// Styles
+// 
+// Import Bootstrap
+@import "../../../node_modules/bootstrap/scss/bootstrap";
+
+.badge {
+  &-primary { background-color: #007bff; color: white; }
+  &-info { background-color: #17a2b8; color: white; }
+  &-secondary { background-color: #6c757d; color: white; }
+  &-warning { background-color: #ffc107; color: black; }
+  &-light { background-color: #83c1ff; color: black; }
+  &-success { background-color: #28a745; color: white; }
+  &-danger { background-color: #dc3545; color: white; }
+}
+
+.tooltip {
+  background-color: #333 !important; /* Dark background */
+  color: #fff !important;           /* White text */
+  font-size: 14px;                  /* Slightly larger font */
+  padding: 8px 12px;                /* Add padding */
+  border-radius: 5px;               /* Rounded corners */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+}
+
+.tooltip-arrow {
+  color: #333 !important; /* Arrow color matches tooltip background */
+}
+
+

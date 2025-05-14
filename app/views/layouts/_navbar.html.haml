@@ -1,0 +1,52 @@
+%nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
+  .container-fluid
+    - user_company = current_user&.company
+    %a.navbar-brand{ href: user_company ? company_dashboard_path(company_name: user_company.slug) : root_path }
+      = user_company ? user_company.name : "Behind The Tap"
+
+    / Mobile Toggle Button
+    %button.navbar-toggler{ type: "button", data: { bs_toggle: "collapse", bs_target: "#navbarNav" }, aria_controls: "navbarNav", aria_expanded: "false", aria_label: "Toggle navigation" }
+      %span.navbar-toggler-icon
+
+    / Navbar Links
+    #navbarNav.collapse.navbar-collapse
+      %ul.navbar-nav.me-auto
+        - if user_company&.slug.present?
+          %li.nav-item
+            = link_to "Dashboard", company_dashboard_path(company_name: user_company.slug), class: "nav-link"
+
+          %li.nav-item.dropdown
+            %a.nav-link.dropdown-toggle{ href: "#", id: "brewingDropdown", role: "button", data: { bs_toggle: "dropdown" }, aria_expanded: "false" }
+              Brewing
+            %ul.dropdown-menu{ aria_labelledby: "brewingDropdown" }
+              %li= link_to "New Brew", new_brew_path(user_company), class: "dropdown-item"
+              %li= link_to "Recipes", recipes_path(user_company), class: "dropdown-item"
+
+          %li.nav-item.dropdown
+            %a.nav-link.dropdown-toggle{ href: "#", id: "inventoryDropdown", role: "button", data: { bs_toggle: "dropdown" }, aria_expanded: "false" }
+              Inventory
+            %ul.dropdown-menu{ aria_labelledby: "inventoryDropdown" }
+              %li= link_to "Kegs", keg_inventory_path(company_name: user_company.slug), class: "dropdown-item"
+              %li= link_to "Ingredients", ingredients_path(user_company), class: "dropdown-item"
+
+        / Admin Tools (Conditional)
+        - if current_user&.admin? || current_user&.manager?
+          - if user_company&.slug.present?
+            %li.nav-item.dropdown
+              %a.nav-link.dropdown-toggle{ href: "#", id: "adminDropdown", role: "button", data: { bs_toggle: "dropdown" }, aria_expanded: "false" }
+                Admin Tools
+              %ul.dropdown-menu{ aria_labelledby: "adminDropdown" }
+                %li= link_to "All Users", users_path(company_name: user_company.slug), class: "dropdown-item"
+                %li= link_to "Invite User", new_invitation_path(company_name: user_company.slug), class: "dropdown-item"
+                %li= link_to "All Companies", companies_path, class: "dropdown-item"
+          - else
+            / Hide admin dropdown when no company is set (fixes the error)
+
+      / User Dropdown
+      %ul.navbar-nav
+        %li.nav-item.dropdown
+          %a.nav-link.dropdown-toggle{ href: "#", id: "userDropdown", role: "button", data: { bs_toggle: "dropdown" }, aria_expanded: "false" }
+            = current_user&.name || "Guest"
+          %ul.dropdown-menu{ aria_labelledby: "userDropdown" }
+            - if current_user
+              %li= button_to "Logout", destroy_user_session_path, method: :delete, class: "dropdown-item", data: { confirm: "Are you sure you want to log out?" }

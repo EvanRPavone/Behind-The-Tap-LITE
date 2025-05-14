@@ -1,0 +1,17 @@
+= form_with(model: @vessel, url: vessels_path(company_name: @company.slug), local: true) do |f|
+  - if @vessel.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@vessel.errors.count, 'error')} prohibited this vessel from being saved:"
+      %ul
+        - @vessel.errors.full_messages.each do |message|
+          %li= message
+
+  .form-group
+    = f.label :name
+    = f.text_field :name, class: 'form-control', placeholder: 'Enter Vessel Name'
+
+  .form-group
+    = f.label :size_bbl, "Capacity (BBL)"
+    = f.number_field :size_bbl, class: 'form-control', placeholder: 'Enter Capacity in BBLs'
+
+  = f.submit 'Save Vessel', class: 'btn btn-primary'

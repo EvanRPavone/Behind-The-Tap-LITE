@@ -1,0 +1,21 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  brew: one
+  whirlpool_start_time: 2024-11-03 12:28:08
+  knockout_start_time: 2024-11-03 12:28:08
+  knockout_end_time: 2024-11-03 12:28:08
+  trub_volume: 9.99
+  yeast_source: MyString
+  yeast_id: MyString
+  yeast_generation: 1
+
+two:
+  brew: two
+  whirlpool_start_time: 2024-11-03 12:28:08
+  knockout_start_time: 2024-11-03 12:28:08
+  knockout_end_time: 2024-11-03 12:28:08
+  trub_volume: 9.99
+  yeast_source: MyString
+  yeast_id: MyString
+  yeast_generation: 1

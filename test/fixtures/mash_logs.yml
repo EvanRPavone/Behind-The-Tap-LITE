@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  brew: one
+  mash_in_time: 2024-11-03 12:28:01
+  mash_complete_time: 2024-11-03 12:28:01
+  mash_temp: 9.99
+  mash_ph: 9.99
+
+two:
+  brew: two
+  mash_in_time: 2024-11-03 12:28:01
+  mash_complete_time: 2024-11-03 12:28:01
+  mash_temp: 9.99
+  mash_ph: 9.99

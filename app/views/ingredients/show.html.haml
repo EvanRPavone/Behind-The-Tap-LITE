@@ -1,0 +1,35 @@
+%h1.text-center.mb-4.text-primary= @ingredient.name
+
+.card.shadow-sm
+  .card-body
+    %h5.card-title.text-secondary Ingredient Details
+    %hr
+    .row.g-3
+      .col-md-6
+        %p.mb-1
+          %strong Category: 
+          = @ingredient.category
+        %p.mb-1
+          %strong Brand: 
+          = @ingredient.brand.presence || 'N/A'
+        %p.mb-1
+          %strong Amount: 
+          = @ingredient.amount
+      .col-md-6
+        %p.mb-1
+          %strong Type of Unit: 
+          = @ingredient.type_of_unit
+        %p.mb-1
+          %strong Weight per Unit: 
+          = @ingredient.weight_per_unit
+        %p.mb-1
+          %strong Total Weight: 
+          = @ingredient.total_weight
+
+  .card-footer.d-flex.justify-content-end.gap-2
+    = link_to edit_ingredient_path(@company, @ingredient), class: "text-secondary text-decoration-none d-flex align-items-center gap-1" do
+      %i.fas.fa-edit
+      Edit
+    = link_to ingredients_path(@company), class: "text-secondary text-decoration-none d-flex align-items-center gap-1" do
+      %i.fas.fa-arrow-left
+      Back

@@ -1,0 +1,292 @@
+/ **Edit Brew Button (Above Header, Right-Aligned)**
+.row.justify-content-end.mb-2
+  - if @brew.completed? && !@brew.fulfilled?
+    .card.shadow-sm.p-3.mb-4
+      .card-body
+        .d-flex.justify-content-between.align-items-center.mb-3
+          %h5.mb-0.text-primary Transfer Kegs
+          %span.badge.bg-warning.text-dark.px-3.py-2 Kegs Remaining: #{@brew.remaining_volume.round(2)} gal
+
+        = form_with url: transfer_kegs_brew_path(company_name: @brew.company.slug, id: @brew), method: :post, local: true do |f|
+          .row.g-3
+            .col-md-4
+              .form-group
+                = f.label :full_barrels, 'Full Barrels (15.5 gal)', class: 'form-label fw-bold'
+                = f.number_field :full_barrels, min: 0, class: 'form-control', placeholder: 'Enter number'
+            .col-md-4
+              .form-group
+                = f.label :half_barrels, 'Half Barrels (7.75 gal)', class: 'form-label fw-bold'
+                = f.number_field :half_barrels, min: 0, class: 'form-control', placeholder: 'Enter number'
+            .col-md-4
+              .form-group
+                = f.label :sixtels, 'Sixtels (5.16 gal)', class: 'form-label fw-bold'
+                = f.number_field :sixtels, min: 0, class: 'form-control', placeholder: 'Enter number'
+          .mt-3.d-flex.justify-content-end
+            = f.submit 'Transfer Kegs', class: 'btn btn-primary px-4'
+
+    -# **Empty Vessel Section**
+    .card.shadow-sm.p-3.mt-4
+      .card-body.text-center
+        %h5.text-danger Empty Vessel
+        %p.text-muted This action will mark the vessel as empty and complete the brew process.
+        = button_to "Empty Vessel", empty_vessel_brew_path(company_name: @brew.company.slug, id: @brew),
+          method: :post, class: 'btn btn-danger mt-2 px-4', data: { confirm: "Are you sure you want to empty the vessel? This action cannot be undone." }
+  .col-auto
+    = link_to edit_brew_path(company_name: @brew.company.slug, id: @brew), class: "text-secondary text-decoration-none" do
+      %i.fas.fa-edit.me-1
+      Edit Brew
+
+/ **Brew Details Header (Recipe as Title, Pills Properly Spaced)**
+.row.justify-content-between.align-items-center.mb-3
+  .col-12.col-md-auto
+    %h2.text-primary.mb-2.mb-md-0= @brew.recipe.full_name
+  .col-12.col-md-auto.d-flex.flex-wrap.gap-2
+    %span.badge.bg-light.text-dark.border.px-3.py-2.me-2
+      %strong Batch:
+      = @brew.batch_no
+    %span.badge.px-3.py-2{ class: "badge-#{status_class(@brew.status)}" }
+      = @brew.status&.titleize || 'N/A'
+
+/ **Brew Overview & Metrics (Database-style layout)**
+.row.g-3
+  .col-md-6
+    .border.rounded.p-3.h-100
+      %h5.text-primary.mb-3 Brew Information
+      %table.table.table-borderless.mb-0
+        %tbody
+          %tr
+            %td.text-muted Brew Date:
+            %td= @brew.brew_date.strftime("%B %d, %Y")
+          %tr
+            %td.text-muted Vessel:
+            %td= @brew.vessel.name
+          %tr
+            %td.text-muted Target Carbed Volume:
+            %td= @brew.target_carbed_vol || 'N/A'
+
+  .col-md-6
+    .border.rounded.p-3.h-100
+      %h5.text-primary.mb-3 Current Metrics
+      %table.table.table-borderless.mb-0
+        %tbody
+          %tr
+            %td.text-muted Target ABV:
+            %td= @brew.recipe.target_abv
+          %tr
+            %td.text-muted Target P:
+            %td= @brew.target_p
+          %tr
+            %td.text-muted OG:
+            %td= @brew.original_grav
+          %tr
+            %td.text-muted Int. SG:
+            %td= @brew.int_sg
+          %tr
+            %td.text-muted Current SG:
+            %td= @brew.current_sg
+          %tr
+            %td.text-muted Est. ABV:
+            %td= @brew.est_abv
+
+%hr/
+
+/ **Timeline & Additional Info (Database-style layout)**
+.row.g-3
+  .col-md-6
+    .border.rounded.p-3.h-100
+      %h5.text-secondary.mb-3 Timeline
+      %table.table.table-borderless.mb-0
+        %tbody
+          %tr
+            %td.text-muted D Rest (Start):
+            %td= @brew.d_rest_start&.strftime("%B %d, %Y %I:%M %p") || 'N/A'
+          %tr
+            %td.text-muted Crash (Start):
+            %td= @brew.crash_start&.strftime("%B %d, %Y %I:%M %p") || 'N/A'
+          %tr
+            %td.text-muted Target Release:
+            %td= @brew.target_release&.strftime("%B %d, %Y") || 'N/A'
+
+  .col-md-6
+    .border.rounded.p-3.h-100
+      %h5.text-secondary.mb-3 Notes & Additional Info
+      %table.table.table-borderless.mb-0
+        %tbody
+          %tr
+            %td.text-muted Latest Note:
+            %td= @brew&.latest_log_note || 'No notes available'
+          %tr
+            %td.text-muted pH:
+            %td= @brew.fermentation_logs.last&.ph || 'N/A'
+          %tr
+            %td.text-muted Carb Volume:
+            %td= @brew.fermentation_logs.last&.carbed_vol || 'N/A'
+          %tr
+            %td.text-muted Yeast Gen:
+            %td= @brew.yeast_and_knockout_logs.last&.yeast_generation || 'N/A'
+
+/ **Scrollable Icon-Based Log Navigation**
+.overflow-auto.mt-3
+  .nav.nav-tabs.flex-nowrap{"role" => "tablist", style: "white-space: nowrap; overflow-x: auto;"}
+    %li.nav-item
+      %a.nav-link.active{"data-bs-toggle" => "tab", href: "#mashLogTab"}
+        %i.fas.fa-water.me-1
+        Mash
+    %li.nav-item
+      %a.nav-link{"data-bs-toggle" => "tab", href: "#boilLogTab"}
+        %i.fas.fa-fire.me-1
+        Boil
+    %li.nav-item
+      %a.nav-link{"data-bs-toggle" => "tab", href: "#additionLogTab"}
+        %i.fas.fa-plus-square.me-1
+        Additions
+    %li.nav-item
+      %a.nav-link{"data-bs-toggle" => "tab", href: "#yeastLogTab"}
+        %i.fas.fa-dna.me-1
+        Yeast & Knockout
+    %li.nav-item
+      %a.nav-link{"data-bs-toggle" => "tab", href: "#fermentationLogTab"}
+        %i.fas.fa-prescription-bottle.me-1
+        Fermentation
+
+/ **Tab Content**
+.tab-content.mt-3
+  #mashLogTab.tab-pane.fade.show.active{"role" => "tabpanel"}
+    .border.rounded.p-3
+      .d-flex.justify-content-between.align-items-center.mb-3
+        %h4.mb-0 Mash Log
+        = link_to "#MashLogsModal", "data-bs-toggle" => "modal", "data-bs-target" => "#MashLogsModal", class: "text-primary text-decoration-none" do
+          %i.fas.fa-list.me-1
+          View All
+      = render 'mash_logs/log', mash_log: @brew.mash_logs.order(created_at: :desc).first
+      .mt-3.d-flex.justify-content-end
+        = link_to new_brew_mash_log_path(company_name: @brew.company.slug, brew_id: @brew), class: "text-secondary text-decoration-none" do
+          %i.fas.fa-plus-circle.me-1
+          Add Log
+
+  #boilLogTab.tab-pane.fade{"role" => "tabpanel"}
+    .border.rounded.p-3
+      .d-flex.justify-content-between.align-items-center.mb-3
+        %h4.mb-0 Boil Log
+        = link_to "#BoilLogsModal", "data-bs-toggle" => "modal", "data-bs-target" => "#BoilLogsModal", class: "text-primary text-decoration-none" do
+          %i.fas.fa-list.me-1
+          View All
+
+      - preboil_log = @brew.boil_logs.find_by(stage: 'preboil')
+      - completed_boil_log = @brew.boil_logs.find_by(stage: 'completed')
+
+      - if completed_boil_log
+        = render 'boil_logs/log', boil_log: completed_boil_log
+      - elsif preboil_log
+        = render 'boil_logs/log', boil_log: preboil_log
+      - else
+        %p.text-muted No boil log available.
+
+      .mt-3.d-flex.justify-content-end.gap-3
+        - if !preboil_log && !completed_boil_log
+          = link_to new_preboil_brew_boil_logs_path(company_name: @brew.company.slug, brew_id: @brew), class: "text-secondary text-decoration-none" do
+            %i.fas.fa-plus-circle.me-1
+            Add Postboil Log
+        - if preboil_log && !completed_boil_log
+          = link_to new_postboil_brew_boil_logs_path(company_name: @brew.company.slug, brew_id: @brew), class: "text-secondary text-decoration-none" do
+            %i.fas.fa-plus-circle.me-1
+            Add Postboil Log
+        - if completed_boil_log
+          = link_to edit_brew_boil_log_path(company_name: @brew.company.slug, brew_id: @brew, id: completed_boil_log.id), class: "text-secondary text-decoration-none" do
+            %i.fas.fa-edit.me-1
+            Edit Log
+
+  #additionLogTab.tab-pane.fade{"role" => "tabpanel"}
+    .border.rounded.p-3
+      .d-flex.justify-content-between.align-items-center.mb-3
+        %h4.mb-0 Addition Log
+        = link_to "#AdditionLogsModal", "data-bs-toggle" => "modal", "data-bs-target" => "#AdditionLogsModal", class: "text-primary text-decoration-none" do
+          %i.fas.fa-list.me-1
+          View All
+      = render 'addition_logs/log', addition_log: @brew.addition_logs.order(created_at: :desc).first
+      .mt-3.d-flex.justify-content-end
+        = link_to new_brew_addition_log_path(company_name: @brew.company.slug, brew_id: @brew), class: "text-secondary text-decoration-none" do
+          %i.fas.fa-plus-circle.me-1
+          Add Log
+
+
+  #yeastLogTab.tab-pane.fade{"role" => "tabpanel"}
+    .border.rounded.p-3
+      .d-flex.justify-content-between.align-items-center.mb-3
+        %h4.mb-0 Yeast & Knockout Log
+        = link_to "#YeastAndKnockoutLogsModal", "data-bs-toggle" => "modal", "data-bs-target" => "#YeastAndKnockoutLogsModal", class: "text-primary text-decoration-none" do
+          %i.fas.fa-list.me-1
+          View All
+      = render 'yeast_and_knockout_logs/log', yeast_and_knockout_log: @brew.yeast_and_knockout_logs.order(created_at: :desc).first
+      .mt-3.d-flex.justify-content-end
+        = link_to new_brew_yeast_and_knockout_log_path(company_name: @brew.company.slug, brew_id: @brew), class: "text-secondary text-decoration-none" do
+          %i.fas.fa-plus-circle.me-1
+          Add Log
+
+  #fermentationLogTab.tab-pane.fade{"role" => "tabpanel"}
+    .border.rounded.p-3
+      .d-flex.justify-content-between.align-items-center.mb-3
+        %h4.mb-0 Fermentation Logs
+        = link_to "#FermentationLogsModal", "data-bs-toggle" => "modal", "data-bs-target" => "#FermentationLogsModal", class: "text-primary text-decoration-none" do
+          %i.fas.fa-list.me-1
+          View All
+      = render 'fermentation_logs/log', fermentation_log: @brew.fermentation_logs.order(created_at: :desc).first
+      .mt-3.d-flex.justify-content-end
+        = link_to new_brew_fermentation_log_path(company_name: @brew.company.slug, brew_id: @brew), class: "text-secondary text-decoration-none" do
+          %i.fas.fa-plus-circle.me-1
+          Add Log
+
+/ **Mash Log Modal**
+.modal.fade#MashLogsModal{"tabindex" => "-1", "role" => "dialog"}
+  .modal-dialog.modal-lg
+    .modal-content
+      .modal-header
+        %h5.modal-title Mash Logs
+        %button.btn-close{"data-bs-dismiss" => "modal"}
+      .modal-body
+        .table-responsive
+          = render 'mash_logs/logs', logs: @brew.mash_logs
+
+/ **Boil Log Modal**
+.modal.fade#BoilLogsModal{"tabindex" => "-1", "role" => "dialog"}
+  .modal-dialog.modal-lg
+    .modal-content
+      .modal-header
+        %h5.modal-title Boil Logs
+        %button.btn-close{"data-bs-dismiss" => "modal"}
+      .modal-body
+        .table-responsive
+          = render 'boil_logs/logs', logs: @brew.boil_logs
+
+/ **Addition Log Modal**
+.modal.fade#AdditionLogsModal{"tabindex" => "-1", "role" => "dialog"}
+  .modal-dialog.modal-lg
+    .modal-content
+      .modal-header
+        %h5.modal-title Addition Logs
+        %button.btn-close{"data-bs-dismiss" => "modal"}
+      .modal-body
+        .table-responsive
+          = render 'addition_logs/logs', logs: @brew.addition_logs
+
+/ **Yeast & Knockout Log Modal**
+.modal.fade#YeastAndKnockoutLogsModal{"tabindex" => "-1", "role" => "dialog"}
+  .modal-dialog.modal-lg
+    .modal-content
+      .modal-header
+        %h5.modal-title Yeast & Knockout Logs
+        %button.btn-close{"data-bs-dismiss" => "modal"}
+      .modal-body
+        .table-responsive
+          = render 'yeast_and_knockout_logs/logs', logs: @brew.yeast_and_knockout_logs
+
+/ **Fermentation Log Modal**
+.modal.fade#FermentationLogsModal{"tabindex" => "-1", "role" => "dialog"}
+  .modal-dialog.modal-lg
+    .modal-content
+      .modal-header
+        %h5.modal-title Fermentation Logs
+        %button.btn-close{"data-bs-dismiss" => "modal"}
+      .modal-body
+        .table-responsive
+          = render 'fermentation_logs/logs', logs: @brew.fermentation_logs

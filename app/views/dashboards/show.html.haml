@@ -1,0 +1,134 @@
+/ ** Header with Company Switcher (Only If Partnerships Exist) **
+.d-flex.flex-column.flex-md-row.justify-content-between.align-items-center.mb-3
+  %h3.mb-2.mb-md-0.text-primary
+    Brewery Dashboard
+  - if current_user.brewer? || current_user.manager? || current_user.admin? && current_user.company.partnerships.any?
+    .d-flex.align-items-center.gap-2
+      %i.fas.fa-exchange-alt.text-muted
+      = form_with url: switch_company_path(company_name: current_user.company.slug), method: :post, local: true, class: "d-flex gap-2 align-items-center" do |f|
+        = f.select :company_id, options_for_select(@companies.map { |c| [c.name, c.id] }, selected: current_user.company_id), {}, class: 'form-select'
+        = f.submit 'Switch', class: 'btn btn-sm btn-outline-primary'
+
+/ ** Actions Row (Compact for Mobile) **
+.d-flex.flex-wrap.justify-content-between.align-items-center.mb-3.gap-3
+  .d-flex.gap-2
+    = link_to vessels_path(company_name: @company.slug), class: "text-secondary text-decoration-none d-flex align-items-center gap-2 me-2" do
+      %i.fas.fa-clipboard-list
+      %span.d-none.d-sm-inline Manage Vessels
+    = link_to new_brew_path(company_name: @company.slug), class: "text-secondary text-decoration-none d-flex align-items-center gap-2" do
+      %i.fas.fa-plus-circle
+      %span.d-none.d-sm-inline New Brew
+
+  / Search Bar (Fully Responsive)
+  .flex-grow-1
+    = form_with url: company_dashboard_path(@company), method: :get, local: true, class: "d-flex gap-2" do |f|
+      = f.text_field 'q[batch_no_cont]', placeholder: "Search by Batch #", class: "form-control"
+      = f.submit "Search", class: "btn btn-primary"
+
+%hr.mt-3/
+
+/ ** Active Brews Section **
+%h3.mb-3.text-primary Active Brews (#{@active_brews.count})
+- if @active_brews.any?
+  .row.g-3
+    - @active_brews.each do |brew|
+      .col-12.col-lg-6
+        .card.shadow-sm.mb-3.p-3
+          .d-flex.justify-content-between.align-items-center.mb-2
+            %h5.text-primary.mb-0= brew.vessel&.name || "No Vessel Assigned"
+          .d-flex.flex-wrap.align-items-center.gap-2.mb-2.mt-2
+            %span.badge{ class: "badge-#{status_class(brew.status)}" }
+              = brew.status.titleize
+            %small.text-muted Batch #: #{brew.batch_no}
+
+          %hr/
+
+          .row.g-3
+            .col-6
+              %p.mb-1
+                %strong In Tank: 
+                = brew.recipe.full_name
+              %p.mb-1
+                %strong Brewed On: 
+                = brew.brew_date&.strftime('%m/%d')
+              %p.mb-1
+                %strong Target Release Date: 
+                = brew.target_release&.strftime('%m/%d') || 'N/A'
+
+            .col-6
+              %p.mb-1
+                %strong Carb Vol: 
+                = brew.fermentation_logs.last&.carbed_vol || '-'
+              %p.mb-1
+                %strong OG: 
+                = number_with_precision(brew.original_grav, precision: 3) || '-'
+              %p.mb-1
+                %strong pH: 
+                = number_with_precision(brew.fermentation_logs.last&.ph, precision: 2) || '-'
+
+          / Yeast Information (Properly Formatted)
+          .mt-2
+            - yeast_log = brew.yeast_and_knockout_logs.last
+            %p.mb-1
+              %strong Yeast: 
+              - if yeast_log
+                = "Source: #{yeast_log.yeast_source.presence || 'Unknown'} | "
+                = "Name: #{Ingredient.find_by(id: yeast_log.yeast_id)&.name || 'Unknown'} | "
+                = "Gen: #{yeast_log.yeast_generation || 'N/A'}"
+              - else
+                = "No Yeast Data"
+
+          / View Brew Button
+          .mt-3.d-flex.justify-content-end
+            = link_to brew_path(company_name: brew.company.slug, id: brew), class: "text-secondary text-decoration-none d-flex align-items-center gap-2" do
+              %i.fas.fa-eye
+              View Brew
+- else
+  %p.text-muted No active brews.
+
+%hr.mt-4/
+
+/ ** Completed & Fulfilled Brews Section **
+%h3.mb-3.text-success Completed Brews (#{@completed_brews.count})
+- if @completed_brews.any?
+  .row.g-3
+    - @completed_brews.each do |brew|
+      .col-12.col-lg-6
+        .card.shadow-sm.mb-3.p-3
+          .d-flex.justify-content-between.align-items-center.mb-2
+            %h5.text-success.mb-0= brew.vessel&.name || "No Vessel Assigned"
+          .d-flex.flex-wrap.align-items-center.gap-2.mb-2.mt-2
+            %span.badge.badge-success
+              = brew.status.titleize
+            %small.text-muted Batch #: #{brew.batch_no}
+
+          .row.g-3
+            .col-6
+              %p.mb-1
+                %strong In Tank: 
+                = brew.recipe.full_name
+              %p.mb-1
+                %strong Brewed On: 
+                = brew.brew_date&.strftime('%m/%d')
+              %p.mb-1
+                %strong Target Release Date: 
+                = brew.target_release&.strftime('%m/%d') || 'N/A'
+
+            .col-6
+              %p.mb-1
+                %strong Carb Vol: 
+                = brew.fermentation_logs.last&.carbed_vol || '-'
+              %p.mb-1
+                %strong OG: 
+                = number_with_precision(brew.original_grav, precision: 3) || '-'
+              %p.mb-1
+                %strong pH: 
+                = number_with_precision(brew.fermentation_logs.last&.ph, precision: 2) || '-'
+
+          / View Brew Button
+          .mt-3.d-flex.justify-content-end
+            = link_to brew_path(company_name: brew.company.slug, id: brew), class: "text-secondary text-decoration-none d-flex align-items-center gap-2" do
+              %i.fas.fa-eye
+              View Brew
+- else
+  %p.text-muted No completed brews.

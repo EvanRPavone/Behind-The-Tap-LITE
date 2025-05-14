@@ -1,0 +1,43 @@
+%h1 New Preboil Log
+= form_with model: [@brew, @boil_log], url: create_preboil_brew_boil_logs_path, local: true do |f|
+  .form-group
+    = f.label :original_grav, "Original Gravity (OG)"
+    = f.number_field :original_grav, step: 0.001, class: 'form-control'
+    
+  .form-group
+    = f.label :vorlauf_start_time, "Vorlauf Start Time"
+    = f.datetime_local_field :vorlauf_start_time, class: 'form-control'
+
+  .form-group
+    = f.label :vorlauf_complete_time, "Vorlauf Complete Time"
+    = f.datetime_local_field :vorlauf_complete_time, class: 'form-control'
+
+  .form-group
+    = f.label :sparge_start_time, "Sparge Start Time"
+    = f.datetime_local_field :sparge_start_time, class: 'form-control'
+
+  .form-group
+    = f.label :sparge_amount, "Sparge Amount (gal)"
+    = f.number_field :sparge_amount, step: 0.01, class: 'form-control'
+
+  .form-group
+    = f.label :sparge_complete_time, "Sparge Complete Time"
+    = f.datetime_local_field :sparge_complete_time, class: 'form-control'
+
+  .form-group
+    = f.label :kettle_full_time, "Kettle Full Time"
+    = f.datetime_local_field :kettle_full_time, class: 'form-control'
+
+  .form-group
+    = f.label :preboil_volume, "Preboil Volume (gal)"
+    = f.number_field :preboil_volume, step: 0.01, class: 'form-control'
+
+  .form-group
+    = f.label :preboil_gravity, "Preboil Gravity"
+    = f.number_field :preboil_gravity, step: 0.001, class: 'form-control'
+
+  .form-group
+    = f.label :preboil_ph, "Preboil pH"
+    = f.number_field :preboil_ph, step: 0.01, class: 'form-control'
+  .actions
+    = f.submit "Save Preboil Log", class: "btn btn-primary"

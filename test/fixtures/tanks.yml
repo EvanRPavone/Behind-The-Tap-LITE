@@ -1,0 +1,47 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  batch_no: MyString
+  in_tank: MyString
+  status: 1
+  brew_date: 2024-09-26
+  carbed_vol: 9.99
+  next_steps_id: 1
+  yeast_gen: 1
+  original_grav: 9.99
+  int_sg: 9.99
+  og_was: 9.99
+  og_is: 9.99
+  target_p: 9.99
+  ph: 9.99
+  current_sg: 9.99
+  vessel_id: 1
+  est_abv: 9.99
+  target_abv: 9.99
+  d_rest_start: 2024-09-26
+  crash_start: 2024-09-26
+  target_release: 2024-09-26
+  notes: MyText
+
+two:
+  batch_no: MyString
+  in_tank: MyString
+  status: 1
+  brew_date: 2024-09-26
+  carbed_vol: 9.99
+  next_steps_id: 1
+  yeast_gen: 1
+  original_grav: 9.99
+  int_sg: 9.99
+  og_was: 9.99
+  og_is: 9.99
+  target_p: 9.99
+  ph: 9.99
+  current_sg: 9.99
+  vessel_id: 1
+  est_abv: 9.99
+  target_abv: 9.99
+  d_rest_start: 2024-09-26
+  crash_start: 2024-09-26
+  target_release: 2024-09-26
+  notes: MyText

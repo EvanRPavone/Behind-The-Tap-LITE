@@ -1,0 +1,95 @@
+%h2.text-primary Edit Boil Log Entry for Brew #{@brew.batch_no}
+
+= form_with model: @boil_log, url: brew_boil_log_path(company_name: params[:company_name], brew_id: @brew.id, id: @boil_log.id), method: :patch, local: true do |f|
+  - if @boil_log.stage == "preboil"
+    .border.rounded.p-3.mb-4
+      %h4.text-secondary Preboil Details
+      .row.g-3
+        .col-md-6
+          .form-group
+            = f.label :vorlauf_start_time, 'Vorlauf Start Time', class: 'form-label'
+            = f.datetime_field :vorlauf_start_time, class: 'form-control'
+        .col-md-6
+          .form-group
+            = f.label :vorlauf_complete_time, 'Vorlauf Complete Time', class: 'form-label'
+            = f.datetime_field :vorlauf_complete_time, class: 'form-control'
+        .col-md-6
+          .form-group
+            = f.label :sparge_start_time, 'Sparge Start Time', class: 'form-label'
+            = f.datetime_field :sparge_start_time, class: 'form-control'
+        .col-md-6
+          .form-group
+            = f.label :sparge_amount, 'Sparge Amount', class: 'form-label'
+            = f.number_field :sparge_amount, class: 'form-control'
+        .col-md-6
+          .form-group
+            = f.label :preboil_volume, 'Preboil Volume', class: 'form-label'
+            = f.number_field :preboil_volume, class: 'form-control'
+        .col-md-6
+          .form-group
+            = f.label :preboil_gravity, 'Preboil Gravity', class: 'form-label'
+            = f.number_field :preboil_gravity, class: 'form-control'
+        .col-md-6
+          .form-group
+            = f.label :preboil_ph, 'Preboil pH', class: 'form-label'
+            = f.number_field :preboil_ph, class: 'form-control'
+
+  - elsif @boil_log.stage == "completed"
+    .border.rounded.p-3.mb-4
+      %h4.text-secondary Preboil Details
+      .row.g-3
+        .col-md-6
+          .form-group
+            = f.label :vorlauf_start_time, 'Vorlauf Start Time', class: 'form-label'
+            = f.datetime_field :vorlauf_start_time, class: 'form-control'
+        .col-md-6
+          .form-group
+            = f.label :vorlauf_complete_time, 'Vorlauf Complete Time', class: 'form-label'
+            = f.datetime_field :vorlauf_complete_time, class: 'form-control'
+        .col-md-6
+          .form-group
+            = f.label :sparge_start_time, 'Sparge Start Time', class: 'form-label'
+            = f.datetime_field :sparge_start_time, class: 'form-control'
+        .col-md-6
+          .form-group
+            = f.label :sparge_amount, 'Sparge Amount', class: 'form-label'
+            = f.number_field :sparge_amount, class: 'form-control'
+        .col-md-6
+          .form-group
+            = f.label :preboil_volume, 'Preboil Volume', class: 'form-label'
+            = f.number_field :preboil_volume, class: 'form-control'
+        .col-md-6
+          .form-group
+            = f.label :preboil_gravity, 'Preboil Gravity', class: 'form-label'
+            = f.number_field :preboil_gravity, class: 'form-control'
+        .col-md-6
+          .form-group
+            = f.label :preboil_ph, 'Preboil pH', class: 'form-label'
+            = f.number_field :preboil_ph, class: 'form-control'
+
+    .border.rounded.p-3.mb-4
+      %h4.text-secondary Postboil Details
+      .row.g-3
+        .col-md-6
+          .form-group
+            = f.label :boil_achieved_time, 'Boil Achieved Time', class: 'form-label'
+            = f.datetime_field :boil_achieved_time, class: 'form-control'
+        .col-md-6
+          .form-group
+            = f.label :boil_complete_time, 'Boil Complete Time', class: 'form-label'
+            = f.datetime_field :boil_complete_time, class: 'form-control'
+        .col-md-6
+          .form-group
+            = f.label :post_boil_amount, 'Post Boil Amount', class: 'form-label'
+            = f.number_field :post_boil_amount, class: 'form-control'
+        .col-md-6
+          .form-group
+            = f.label :post_boil_gravity, 'Post Boil Gravity', class: 'form-label'
+            = f.number_field :post_boil_gravity, class: 'form-control'
+        .col-md-6
+          .form-group
+            = f.label :post_boil_ph, 'Post Boil pH', class: 'form-label'
+            = f.number_field :post_boil_ph, class: 'form-control'
+
+  .mt-4.d-flex.justify-content-end
+    = f.submit 'Update Boil Log', class: 'btn btn-primary'

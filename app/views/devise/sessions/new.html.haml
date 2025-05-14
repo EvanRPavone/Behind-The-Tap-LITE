@@ -1,0 +1,29 @@
+#layoutAuthentication
+  #layoutAuthentication_content
+    %main.d-flex.align-items-center.justify-content-center.min-vh-100
+      .container
+        .row.justify-content-center
+          .col-md-6.col-lg-5
+            .card.shadow-lg.border-0.rounded-lg.mt-5
+              .card-header.text-center
+                %h3.font-weight-light.mb-0.text-primary
+                  %i.fas.fa-user-lock.me-2
+                  Login to Your Account
+              .card-body
+                = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
+                  .form-floating.mb-3
+                    = f.email_field :email, autofocus: true, class: "form-control", autocomplete: "email", placeholder: "Email Address"
+                    = f.label :email, "Email Address"
+                  .form-floating.mb-3
+                    = f.password_field :password, class: "form-control", autocomplete: "current-password", placeholder: "Password"
+                    = f.label :password, "Password"
+                  - if devise_mapping.rememberable?
+                    .form-check.mb-3
+                      = f.check_box :remember_me, class: "form-check-input", id: "rememberMe"
+                      = f.label :remember_me, "Remember Me", class: "form-check-label"
+                  .d-grid.gap-2.mt-3
+                    = f.submit "Login", class: "btn btn-primary btn-lg"
+              -# .card-footer.text-center.py-3
+              -#   .small
+              -#     -# Placeholder for forgot password (can be enabled later)
+              -#     %span.text-muted Forgot password? (Coming soon)

@@ -1,0 +1,12 @@
+Low Stock Alert
+
+Dear #{@company.name} Team,
+
+This is a notification that the stock for the ingredient #{@ingredient.name} is running low.
+
+Current Stock: #{@ingredient.amount} #{Ingredient::UNITS[@ingredient.unit_of_measurement.to_sym]}
+
+Please restock this ingredient at your earliest convenience.
+
+Thank you,
+The Behind The Tap Team

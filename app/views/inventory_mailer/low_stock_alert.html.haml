@@ -1,0 +1,19 @@
+!!!
+%html
+  %head
+    %meta{ content: "text/html; charset=UTF-8", "http-equiv" => "Content-Type" }
+  %body
+    %h1 Low Stock Alert
+    %p Dear #{@company.name} Team,
+    %p
+      This is a notification that the stock for the ingredient
+      %strong= @ingredient.name
+      is running low.
+    %p
+      %strong Current Stock:
+      = @ingredient.amount
+      = Ingredient::UNITS[@ingredient.unit_of_measurement.to_sym]
+    %p Please restock this ingredient at your earliest convenience.
+    %p Thank you,
+    %br/
+    The Behind The Tap Team

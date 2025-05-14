@@ -1,0 +1,24 @@
+%h2.text-primary.mb-4 Keg Inventory
+
+%table.table.table-striped
+  %thead
+    %tr
+      %th Recipe Name
+      %th Total Kegs
+      %th Total Volume (gal)
+      %th Full Barrels
+      %th Half Barrels
+      %th Sixtels
+      %th Actions
+  %tbody
+    - @recipes_with_kegs.each do |recipe|
+      %tr
+        %td= recipe[:name]
+        %td= recipe[:total_kegs]
+        %td= recipe[:total_volume].round(2)
+        %td= recipe[:full_barrels]
+        %td= recipe[:half_barrels]
+        %td= recipe[:sixtels]
+        %td
+          = link_to 'View Details', keg_path(id: recipe[:id], company_name: params[:company_name]), class: 'btn btn-primary btn-sm'
+

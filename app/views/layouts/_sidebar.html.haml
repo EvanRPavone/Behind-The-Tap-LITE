@@ -1,0 +1,56 @@
+#layoutSidenav_nav
+  %nav#sidenavAccordion.sb-sidenav.accordion.sb-sidenav-dark
+    .sb-sidenav-menu
+      .nav
+        %a.nav-link{ href: company_dashboard_path(company_name: @company.slug) }
+          .sb-nav-link-icon
+            %i.fas.fa-tachometer-alt
+          Dashboard
+
+        .sb-sidenav-menu-heading Management
+        %a.nav-link.collapsed{"aria-controls" => "collapseLayouts", "aria-expanded" => "false", "data-bs-target" => "#collapseLayouts", "data-bs-toggle" => "collapse", :href => "#"}
+          .sb-nav-link-icon
+            %i.fas.fa-columns
+          Brewing
+          .sb-sidenav-collapse-arrow
+            %i.fas.fa-angle-down
+        #collapseLayouts.collapse{"aria-labelledby" => "headingOne", "data-bs-parent" => "#sidenavAccordion"}
+          %nav.sb-sidenav-menu-nested.nav
+            = link_to 'New Brew', new_brew_path(@company), class: 'nav-link'
+            = link_to 'Recipes', recipes_path(@company), class: 'nav-link'
+
+        %a.nav-link.collapsed{"aria-controls" => "collapsePages", "aria-expanded" => "false", "data-bs-target" => "#collapsePages", "data-bs-toggle" => "collapse", :href => "#"}
+          .sb-nav-link-icon
+            %i.fas.fa-book-open
+          Inventory
+          .sb-sidenav-collapse-arrow
+            %i.fas.fa-angle-down
+        #collapsePages.collapse{"aria-labelledby" => "headingTwo", "data-bs-parent" => "#sidenavAccordion"}
+          %nav.sb-sidenav-menu-nested.nav
+            = link_to 'Kegs', keg_inventory_path(company_name: current_user.company.slug), class: 'nav-link'
+          %nav.sb-sidenav-menu-nested.nav
+            = link_to 'Ingredients', ingredients_path(@company), class: 'nav-link'
+
+        - if current_user.admin? || current_user.manager?
+          .sb-sidenav-menu-heading Admin Tools
+          %nav.sb-sidenav-menu-nested.nav
+            = link_to 'All Users', users_path(company_name: @company.slug), class: 'nav-link'
+            = link_to 'Invite User', new_invitation_path(company_name: @company.slug), class: 'nav-link'
+            = link_to 'All Companies', companies_path, class: 'nav-link' # Link to view all companies
+
+        - if current_user.brewer? || current_user.manager? || current_user.admin?
+          -# .sb-sidenav-menu-heading Switch Company
+          = form_with url: switch_company_path(company_name: current_user.company.slug), method: :post, local: true do |f|
+            = f.label :company_id, 'Select Company', class: 'form-label sb-sidenav-menu-heading'
+            = f.select :company_id, options_for_select(Company.all.map { |c| [c.name, c.id] }, selected: current_user.company_id), {}, class: 'form-select'
+            .mt-2
+              = f.submit 'Switch', class: 'btn btn-primary btn-sm'
+
+    .d-none.d-md-inline-block.ms-auto.me-0.me-md-3.my-2.my-md-0
+      = button_to destroy_user_session_path, method: :delete, role: "button", data: { confirm: 'Are you sure you want to log out?' }, class: 'nav-link mb-2' do
+        %i.fas.fa-right-from-bracket
+        Logout
+
+    .sb-sidenav-footer
+      .small Logged in as:
+      = current_user.name

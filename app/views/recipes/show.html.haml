@@ -1,0 +1,47 @@
+/ ** Recipe Header & Actions **
+.d-flex.justify-content-between.align-items-center.mb-3
+  %h3.text-primary.mb-0= @recipe.full_name
+  .d-flex.align-items-center.gap-3
+    = link_to edit_recipe_path(@company, @recipe), class: "text-secondary text-decoration-none d-flex align-items-center gap-2" do
+      %i.fas.fa-edit
+      Edit
+    = link_to recipes_path(@company), class: "text-secondary text-decoration-none d-flex align-items-center gap-2" do
+      %i.fas.fa-arrow-left
+      Back
+    = link_to recipe_path(@company, @recipe), method: :delete, data: { confirm: 'Are you sure?' }, class: "text-danger text-decoration-none d-flex align-items-center gap-2" do
+      %i.fas.fa-trash
+      Delete
+
+%hr.mt-3/
+
+/ ** Recipe Details Section **
+%h4.text-primary.mb-3 Recipe Details
+.list-group.shadow-sm
+  .list-group-item.p-3.d-flex.justify-content-between
+    %strong Target ABV: 
+    = number_to_percentage(@recipe.target_abv, precision: 2)
+
+  .list-group-item.p-3.d-flex.justify-content-between
+    %strong Batch Size: 
+    %span.badge.bg-secondary= "#{@recipe.size_bbl} BBL"
+
+  .list-group-item.p-3.d-flex.justify-content-between
+    %strong Created At: 
+    = @recipe.created_at.strftime('%B %d, %Y')
+
+  .list-group-item.p-3.d-flex.justify-content-between
+    %strong Last Updated: 
+    = @recipe.updated_at.strftime('%B %d, %Y')
+
+%hr.mt-4/
+
+/ ** Ingredients Section **
+%h4.text-primary.mb-3 Ingredients
+- if @recipe.recipe_ingredients.any?
+  .list-group.shadow-sm
+    - @recipe.recipe_ingredients.each do |recipe_ingredient|
+      .list-group-item.p-3.d-flex.justify-content-between
+        %span= recipe_ingredient.ingredient.display_name
+        %span= "#{recipe_ingredient.amount} #{recipe_ingredient.unit_of_measurement}"
+- else
+  %p.text-muted.text-center No ingredients added to this recipe.

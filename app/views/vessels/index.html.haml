@@ -1,0 +1,37 @@
+.d-flex.justify-content-between.align-items-center.mb-3
+  %h2.text-primary.mb-0 Vessels List
+  = link_to new_vessel_path(company_name: @company.slug), class: "btn btn-outline-success d-flex align-items-center gap-2" do
+    %i.fas.fa-plus-circle
+    Add Vessel
+
+/ Responsive Table Wrapper
+.table-responsive
+  %table.table.table-hover.table-striped.text-center
+    %thead.thead-dark
+      %tr
+        %th Name
+        %th Capacity (BBL)
+        %th In Use
+        %th Actions
+    %tbody
+      - if @vessels.any?
+        - @vessels.each do |vessel|
+          %tr
+            %td= vessel.name
+            %td= vessel.size_bbl
+            %td
+              - if vessel.brews.active.any?
+                %span.badge.bg-success.text-white Yes
+              - else
+                %span.badge.bg-danger.text-white No
+            %td.text-center
+              .d-flex.justify-content-center.gap-2
+                = link_to vessel_path(company_name: @company.slug, id: vessel), class: "btn btn-sm btn-light", title: "View Vessel" do
+                  %i.fas.fa-eye
+                = link_to edit_vessel_path(company_name: @company.slug, id: vessel), class: "btn btn-sm btn-light", title: "Edit Vessel" do
+                  %i.fas.fa-edit
+                = link_to vessel_path(company_name: @company.slug, id: vessel), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-sm btn-danger", title: "Delete Vessel" do
+                  %i.fas.fa-trash
+      - else
+        %tr
+          %td.colspan-4.text-muted.text-center No vessels found.

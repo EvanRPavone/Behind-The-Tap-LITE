@@ -1,0 +1,2 @@
+module AdditionLogsHelper
+end

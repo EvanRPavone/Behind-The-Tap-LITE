@@ -1,0 +1,35 @@
+- if addition_log
+  .border.rounded.p-3
+    %h5.text-primary Log Details
+    %p.mb-2
+      %strong Created By:
+      = addition_log.user&.name || 'Unknown'
+
+    %h6.text-secondary Hop Additions
+    %p.mb-1
+      %strong Hop Addition 1:
+      - if addition_log.hop_addition_1
+        = addition_log.hop_addition_1.name
+        - if addition_log.hop_addition_1_amount.present?
+          %span.text-muted (#{addition_log.hop_addition_1_amount} lbs)
+      - else
+        %span.text-muted N/A
+
+    %p.mb-1
+      %strong Hop Addition 2:
+      - if addition_log.hop_addition_2
+        = addition_log.hop_addition_2.name
+        - if addition_log.hop_addition_2_amount.present?
+          %span.text-muted (#{addition_log.hop_addition_2_amount} lbs)
+      - else
+        %span.text-muted N/A
+
+    %p.mb-1
+      %strong Other Additions:
+      = addition_log.other_additions.presence || 'N/A'
+
+    %p.mb-1
+      %strong Notes:
+      = addition_log.notes.presence || 'N/A'
+- else
+  %p.text-muted No addition log data available.

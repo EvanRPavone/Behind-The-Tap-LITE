@@ -1,0 +1,36 @@
+/ ** Responsive Ingredient Table **
+.table-responsive
+  %table.table.table-striped.table-hover
+    %thead
+      %tr
+        %th Name
+        %th Brand
+        %th Amount
+        %th Type
+        %th Weight/Unit
+        %th Total Weight
+        %th.text-center Actions
+    %tbody
+      - if ingredients.any?
+        - ingredients.each do |ingredient|
+          %tr
+            %td= ingredient.name
+            %td= ingredient.brand.presence || 'N/A'
+            %td= ingredient.amount
+            %td= ingredient.type_of_unit
+            %td= ingredient.weight_per_unit
+            %td= ingredient.total_weight
+            %td.text-center
+              .d-flex.justify-content-center.gap-2
+                = link_to ingredient_path(@company, ingredient), class: "text-primary text-decoration-none d-flex align-items-center gap-1" do
+                  %i.fas.fa-eye
+                  %span.d-none.d-md-inline View
+                = link_to edit_ingredient_path(@company, ingredient), class: "text-secondary text-decoration-none d-flex align-items-center gap-1" do
+                  %i.fas.fa-edit
+                  %span.d-none.d-md-inline Edit
+                = link_to ingredient_path(@company, ingredient), method: :delete, data: { confirm: "Are you sure?" }, class: "text-danger text-decoration-none d-flex align-items-center gap-1" do
+                  %i.fas.fa-trash-alt
+                  %span.d-none.d-md-inline Delete
+      - else
+        %tr
+          %td.colspan-7.text-center.text-muted No ingredients found in this category.

@@ -1,0 +1,72 @@
+- if boil_log
+  .border.rounded.p-3
+    .d-flex.justify-content-between.align-items-center.mb-3
+      %h4.mb-0.text-primary Boil Log
+      %span.badge.px-3.py-2{ class: "badge-#{status_class(boil_log.stage)}" }
+        = boil_log.stage&.titleize || 'N/A'
+
+    %p
+      %strong Created By:
+      = boil_log.user&.name || 'Unknown'
+    %p
+      %strong Original Gravity (OG):
+      = boil_log.original_grav || "N/A"
+
+    %hr.mt-3.mb-3
+
+    / ** Preboil Details **
+    %h5.text-secondary Preboil Details
+    .row
+      .col-md-6
+        %p
+          %strong Vorlauf Start Time:
+          = boil_log.vorlauf_start_time&.strftime("%B %d, %Y %I:%M %p") || "N/A"
+        %p
+          %strong Vorlauf Complete Time:
+          = boil_log.vorlauf_complete_time&.strftime("%B %d, %Y %I:%M %p") || "N/A"
+        %p
+          %strong Sparge Start Time:
+          = boil_log.sparge_start_time&.strftime("%B %d, %Y %I:%M %p") || "N/A"
+        %p
+          %strong Sparge Amount:
+          = boil_log.sparge_amount || 'N/A'
+
+      .col-md-6
+        %p
+          %strong Preboil Volume:
+          = boil_log.preboil_volume || 'N/A'
+        %p
+          %strong Preboil Gravity:
+          = boil_log.preboil_gravity || 'N/A'
+        %p
+          %strong Preboil pH:
+          = boil_log.preboil_ph || 'N/A'
+
+    %hr.mt-3.mb-3
+
+    / ** Postboil Details **
+    %h5.text-secondary Postboil Details
+    .row
+      .col-md-6
+        %p
+          %strong Boil Achieved Time:
+          = boil_log.boil_achieved_time&.strftime("%B %d, %Y %I:%M %p") || "N/A"
+        %p
+          %strong Boil Complete Time:
+          = boil_log.boil_complete_time&.strftime("%B %d, %Y %I:%M %p") || "N/A"
+        %p
+          %strong Post Boil Amount:
+          = boil_log.post_boil_amount || 'N/A'
+
+      .col-md-6
+        %p
+          %strong Post Boil Gravity:
+          = boil_log.post_boil_gravity || 'N/A'
+        %p
+          %strong Post Boil pH:
+          = boil_log.post_boil_ph || 'N/A'
+        %p
+          %strong Notes:
+          = boil_log.notes.presence || 'N/A'
+- else
+  %p.text-muted No boil log data available.

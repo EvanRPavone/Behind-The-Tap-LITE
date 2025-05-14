@@ -1,0 +1,45 @@
+- if yeast_and_knockout_log
+  %h5.card-title.text-primary Yeast & Knockout Log Details
+  .row.g-2
+    .col-md-6
+      %p.mb-2
+        %strong Created By:
+        = yeast_and_knockout_log.user&.name || "Unknown"
+    .col-md-6
+      %p.mb-2
+        %strong Whirlpool Start Time:
+        = yeast_and_knockout_log.whirlpool_start_time&.strftime("%B %d, %Y %I:%M %p") || "N/A"
+  .row.g-2
+    .col-md-6
+      %p.mb-2
+        %strong Knockout Start Time:
+        = yeast_and_knockout_log.knockout_start_time&.strftime("%B %d, %Y %I:%M %p") || "N/A"
+    .col-md-6
+      %p.mb-2
+        %strong Knockout End Time:
+        = yeast_and_knockout_log.knockout_end_time&.strftime("%B %d, %Y %I:%M %p") || "N/A"
+  .row.g-2
+    .col-md-6
+      %p.mb-2
+        %strong Yeast Used:
+        = yeast_and_knockout_log.yeast&.name || "Not Specified"
+    .col-md-6
+      %p.mb-2
+        %strong Trub Volume:
+        = yeast_and_knockout_log.trub_volume || "N/A"
+  .row.g-2
+    .col-md-6
+      %p.mb-2
+        %strong Yeast Source:
+        = yeast_and_knockout_log.yeast_source || "N/A"
+    .col-md-6
+      %p.mb-2
+        %strong Yeast Generation:
+        = yeast_and_knockout_log.yeast_generation || "N/A"
+  .row.g-2
+    .col-md-12
+      %p.mb-2
+        %strong Notes:
+        = yeast_and_knockout_log.notes.presence || "No notes available"
+- else
+  .text-muted No yeast and knockout log data available.

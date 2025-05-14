@@ -1,0 +1,31 @@
+%h2.text-primary.mb-3 Users in Company
+%p.lead-text View and manage users grouped by their roles.
+
+- role_order = ["admin", "manager", "brewer", "bartender"]
+- sorted_users = @users.sort_by { |user| role_order.index(user.role) }
+- sorted_users.group_by(&:role).each do |role, users|
+  %h3.text-primary.mt-4= role.titleize
+
+  .table-responsive
+    %table.table.table-striped.table-hover.text-center
+      %thead
+        %tr
+          %th Name
+          %th Email
+          %th.text-center Actions
+      %tbody
+        - users.each do |user|
+          %tr{ class: ("table-secondary" if user == current_user) }
+            %td= "#{user.first_name} #{user.last_name}"
+            %td= user.email
+            %td.text-center
+              - if user == current_user
+                %span.text-muted No actions available
+              - else
+                .d-flex.justify-content-center.gap-2
+                  = link_to user_path(company_name: @company.slug, id: user), class: 'btn btn-icon btn-light', title: 'View User' do
+                    %i.fas.fa-eye
+                  = link_to edit_user_path(company_name: @company.slug, id: user), class: 'btn btn-icon btn-light', title: 'Edit User' do
+                    %i.fas.fa-edit
+                  = button_to user_path(company_name: @company.slug, id: user), method: :delete, data: { confirm: "Are you sure you want to delete this user?" }, class: 'btn btn-icon btn-danger', title: 'Delete User' do
+                    %i.fas.fa-trash

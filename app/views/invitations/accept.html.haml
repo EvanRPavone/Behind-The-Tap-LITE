@@ -1,0 +1,25 @@
+%h2 Complete Your Registration
+
+= form_with model: @user, url: complete_registration_path, local: true do |f|
+  = hidden_field_tag :token, params[:token]  # Pass the token as a hidden field
+  = f.hidden_field :email
+  = f.hidden_field :role
+
+  .form-group
+    = f.label :first_name, "First Name"
+    = f.text_field :first_name, class: 'form-control', placeholder: 'Enter first name'
+
+  .form-group
+    = f.label :last_name, "Last Name"
+    = f.text_field :last_name, class: 'form-control', placeholder: 'Enter last name'
+
+  .form-group
+    = f.label :password, "New Password"
+    = f.password_field :password, class: 'form-control', placeholder: 'Enter new password'
+
+  .form-group
+    = f.label :password_confirmation, "Confirm Password"
+    = f.password_field :password_confirmation, class: 'form-control', placeholder: 'Confirm new password'
+
+  = f.submit "Complete Registration", class: 'btn btn-primary'
+  = link_to 'Cancel', root_path, class: 'btn btn-outline-secondary ml-2'

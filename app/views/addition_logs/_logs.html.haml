@@ -1,0 +1,34 @@
+- if logs.any?
+  .table-responsive
+    %table.table.table-striped.table-hover
+      %thead
+        %tr.bg-light
+          %th Created By
+          %th Hop Addition 1
+          %th Hop Addition 2
+          %th Other Additions
+          %th Notes
+          %th Logged At
+      %tbody
+        - logs.each do |log|
+          %tr
+            %td= log.user&.name || 'Unknown'
+            %td
+              - if log.hop_addition_1
+                = log.hop_addition_1.name
+                - if log.hop_addition_1_amount.present?
+                  %span.text-muted (#{log.hop_addition_1_amount} lbs)
+              - else
+                %span.text-muted N/A
+            %td
+              - if log.hop_addition_2
+                = log.hop_addition_2.name
+                - if log.hop_addition_2_amount.present?
+                  %span.text-muted (#{log.hop_addition_2_amount} lbs)
+              - else
+                %span.text-muted N/A
+            %td= log.other_additions.presence || 'N/A'
+            %td= log.notes.presence || 'N/A'
+            %td= log.created_at.strftime("%B %d, %Y %I:%M %p")
+- else
+  %p.text-muted No addition logs available.

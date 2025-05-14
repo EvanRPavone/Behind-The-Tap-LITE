@@ -1,0 +1,51 @@
+%h2.text-primary.mb-4= "Keg Inventory for #{@recipe.name}"
+
+.row
+  .col-md-6
+    .card
+      .card-header.bg-primary.text-white
+        %h5= "Keg Summary"
+      .card-body
+        %p
+          %strong Total Kegs:
+          = @kegs.count
+        %p
+          %strong Total Volume:
+          = "#{@total_volume.round(2)} gallons"
+        %p
+          %strong Full Barrels (15.5 gal):
+          = @full_barrels
+        %p
+          %strong Half Barrels (7.75 gal):
+          = @half_barrels
+        %p
+          %strong Sixtels (5.16 gal):
+          = @sixtels
+
+  .col-md-6
+    .card
+      .card-header.bg-secondary.text-white
+        %h5= "Sharing Information"
+      .card-body
+        %p
+          %strong Shared Kegs:
+          = @kegs.joins(:keg_shares).count
+        %ul
+          - @kegs.joins(:keg_shares).group_by { |k| k.keg_shares.first.company.name }.each do |company_name, shared_kegs|
+            %li= "#{company_name}: #{shared_kegs.count} kegs shared"
+
+%hr/
+
+%h3.text-primary.mb-3 Individual Keg Details
+%table.table.table-striped
+  %thead
+    %tr
+      %th Size
+      %th Status
+      %th Shared With
+  %tbody
+    - @kegs.each do |keg|
+      %tr
+        %td= "#{keg.size} gallons"
+        %td= keg.status.titleize
+        %td= keg.keg_shares.map { |ks| ks.company.name }.join(', ').presence || 'N/A'

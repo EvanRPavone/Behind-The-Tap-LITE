@@ -1,0 +1,24 @@
+%h2.text-primary.mb-4 Add New Vessel
+
+= form_with(model: @vessel, url: vessels_path(company_name: @company.slug), local: true, class: "card shadow-sm p-4") do |f|
+  - if @vessel.errors.any?
+    .alert.alert-danger
+      %h4= "#{pluralize(@vessel.errors.count, 'error')} prevented this vessel from being saved:"
+      %ul.mb-0
+        - @vessel.errors.full_messages.each do |message|
+          %li= message
+
+  .row.g-3
+    .col-md-6
+      .form-group
+        = f.label :name, "Vessel Name", class: 'form-label fw-bold'
+        = f.text_field :name, class: 'form-control', placeholder: 'Enter Vessel Name'
+
+    .col-md-6
+      .form-group
+        = f.label :size_bbl, "Capacity (BBL)", class: 'form-label fw-bold'
+        = f.number_field :size_bbl, step: 0.1, class: 'form-control', placeholder: 'Enter Capacity in BBLs'
+
+  .mt-4.d-flex.justify-content-end
+    = f.submit 'Save Vessel', class: 'btn btn-primary px-4'
+    = link_to 'Cancel', vessels_path(company_name: @company.slug), class: 'btn btn-outline-secondary ms-2 px-4'

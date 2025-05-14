@@ -1,0 +1,23 @@
+%h2 Yeast and Knockout Logs for Brew #{@brew.batch_no}
+
+- if @yeast_and_knockout_logs.present?
+  %table.table
+    %thead
+      %tr
+        %th Whirlpool Start Time
+        %th Knockout Start Time
+        %th Knockout End Time
+        %th Trub Volume
+        %th Yeast Source
+        %th Yeast ID
+    %tbody
+      - @yeast_and_knockout_logs.each do |log|
+        %tr
+          %td= log.whirlpool_start_time.strftime("%B %d, %Y %I:%M %p")
+          %td= log.knockout_start_time.strftime("%B %d, %Y %I:%M %p")
+          %td= log.knockout_end_time.strftime("%B %d, %Y %I:%M %p")
+          %td= log.trub_volume
+          %td= log.yeast_source
+          %td= log.yeast_id
+- else
+  %p No yeast and knockout logs available.

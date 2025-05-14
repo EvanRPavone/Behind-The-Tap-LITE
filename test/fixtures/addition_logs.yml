@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  brew: one
+  hop_addition_1: MyString
+  hop_addition_2: MyString
+  other_additions: MyString
+
+two:
+  brew: two
+  hop_addition_1: MyString
+  hop_addition_2: MyString
+  other_additions: MyString

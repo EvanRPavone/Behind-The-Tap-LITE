@@ -1,0 +1,51 @@
+= form_with(model: @brew, url: brews_path(company_name: @company.slug), local: true) do |f|
+  - if @brew.errors.any?
+    .alert.alert-danger
+      %h4= "#{pluralize(@brew.errors.count, 'error')} prevented this brew from being saved:"
+      %ul.mb-0
+        - @brew.errors.full_messages.each do |message|
+          %li= message
+
+  .card.shadow-sm.p-4
+    .card-body
+      %h3.mb-3.text-primary New Brew Form
+
+      .row.g-3
+        .col-md-6
+          .form-group
+            = f.label :batch_no, "Batch Number", class: 'form-label fw-bold'
+            = f.text_field :batch_no, class: 'form-control', placeholder: 'Enter Batch Number'
+
+        .col-md-6
+          .form-group
+            = f.label :in_tank, "Recipe", class: 'form-label fw-bold'
+            = f.collection_select :in_tank, @recipes, :id, :full_name, { prompt: "Select Recipe" }, { class: 'form-control' }
+
+        .col-md-6
+          .form-group
+            = f.label :vessel_id, "Vessel", class: 'form-label fw-bold'
+            = f.collection_select :vessel_id, @vessels, :id, :name, { prompt: "Select Vessel" }, { class: 'form-control' }
+
+        .col-md-6
+          .form-group
+            = f.label :target_carbed_vol, "Target Carbed Volume", class: 'form-label fw-bold'
+            = f.number_field :target_carbed_vol, step: 0.01, class: "form-control", placeholder: "Enter target carbonation volume"
+
+        .col-md-6
+          .form-group
+            = f.label :brew_date, "Brew Date", class: 'form-label fw-bold'
+            = f.date_field :brew_date, class: 'form-control', placeholder: 'Select Brew Date'
+
+        .col-md-6
+          .form-group
+            = f.label :target_p, "Target P", class: 'form-label fw-bold'
+            = f.number_field :target_p, step: 0.01, class: 'form-control', placeholder: 'Enter Target P'
+
+        .col-md-6
+          .form-group
+            = f.label :target_release, "Target Release Date", class: 'form-label fw-bold'
+            = f.date_field :target_release, class: 'form-control', placeholder: 'Select Target Release Date'
+
+      .mt-4.text-center
+        = f.submit 'Create Brew', class: 'btn btn-primary px-4'
+        = link_to 'Cancel', company_dashboard_path(company_name: @company.slug), class: 'btn btn-outline-secondary ms-2 px-4'

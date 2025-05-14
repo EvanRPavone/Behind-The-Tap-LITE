@@ -1,0 +1,24 @@
+%h1 Brews
+
+%table.table
+  %thead
+    %tr
+      %th Batch No
+      %th In Tank
+      %th Status
+      %th Brew Date
+      %th Vessel
+      %th Actions
+  %tbody
+    - @brews.each do |brew|
+      %tr
+        %td= brew.batch_no
+        %td= brew.in_tank
+        %td= brew.status.titleize
+        %td= brew.brew_date
+        %td= brew.vessel.name
+        %td
+          = link_to 'Show', brew_path(@company, brew), class: 'btn btn-primary'
+          = link_to 'Edit', edit_brew_path(@company, brew), class: 'btn btn-secondary'
+
+= link_to 'New Brew', new_brew_path(@company), class: 'btn btn-success'

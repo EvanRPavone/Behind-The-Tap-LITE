@@ -1,0 +1,49 @@
+%h2.text-primary New Yeast and Knockout Log Entry for Brew #{@brew.batch_no}
+
+.card.shadow-sm.p-4
+  .card-body
+    = form_with model: @yeast_and_knockout_log, url: brew_yeast_and_knockout_logs_path(company_name: @brew.company.slug, brew_id: @brew), local: true do |f|
+      .row.g-3
+        .col-md-6
+          .form-group
+            = f.label :whirlpool_start_time, 'Whirlpool Start Time', class: 'form-label fw-bold'
+            = f.datetime_field :whirlpool_start_time, class: 'form-control'
+
+        .col-md-6
+          .form-group
+            = f.label :knockout_start_time, 'Knockout Start Time', class: 'form-label fw-bold'
+            = f.datetime_field :knockout_start_time, class: 'form-control'
+
+        .col-md-6
+          .form-group
+            = f.label :knockout_end_time, 'Knockout End Time', class: 'form-label fw-bold'
+            = f.datetime_field :knockout_end_time, class: 'form-control'
+
+        .col-md-6
+          .form-group
+            = f.label :yeast_id, 'Yeast Used', class: 'form-label fw-bold'
+            = f.collection_select :yeast_id, @yeasts, :id, :name, { prompt: 'Select a yeast' }, { class: 'form-control' }
+
+        .col-md-6
+          .form-group
+            = f.label :trub_volume, 'Trub Volume', class: 'form-label fw-bold'
+            = f.number_field :trub_volume, step: 0.1, class: 'form-control', placeholder: 'Enter Trub Volume'
+
+        .col-md-6
+          .form-group
+            = f.label :yeast_source, 'Yeast Source', class: 'form-label fw-bold'
+            = f.text_field :yeast_source, class: 'form-control', placeholder: 'Enter Yeast Source'
+
+        .col-md-6
+          .form-group
+            = f.label :yeast_generation, 'Yeast Generation', class: 'form-label fw-bold'
+            = f.number_field :yeast_generation, step: 1, class: 'form-control', placeholder: 'Enter Yeast Generation'
+
+        .col-md-12
+          .form-group
+            = f.label :notes, "Notes", class: 'form-label fw-bold'
+            = f.text_area :notes, class: 'form-control', placeholder: "Enter any observations or issues"
+
+      .mt-4.text-center
+        = f.submit 'Save', class: 'btn btn-primary px-4'
+        = link_to 'Cancel', brew_path(company_name: @brew.company.slug, id: @brew), class: "text-secondary text-decoration-none"

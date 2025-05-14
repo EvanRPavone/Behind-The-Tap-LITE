@@ -1,0 +1,51 @@
+= form_with(model: @recipe, url: @recipe.new_record? ? recipes_path(@company) : recipe_path(@company, @recipe), local: true) do |f|
+  - if @recipe.errors.any?
+    .alert.alert-danger
+      %h4= "#{pluralize(@recipe.errors.count, 'error')} prohibited this recipe from being saved:"
+      %ul
+        - @recipe.errors.full_messages.each do |message|
+          %li= message
+
+  .card.mb-3
+    .card-header.bg-light.text-dark
+      %h4 Recipe Information
+    .card-body
+      .form-group.mb-3
+        = f.label :name, class: 'form-label'
+        = f.text_field :name, class: 'form-control', placeholder: 'Recipe name', required: true
+
+      .form-group.mb-3
+        = f.label :target_abv, class: 'form-label'
+        = f.number_field :target_abv, step: 0.01, class: 'form-control', placeholder: 'Target ABV', required: true
+
+      .form-group.mb-3
+        = f.label :size_bbl, class: 'form-label'
+        = f.number_field :size_bbl, step: 0.01, class: 'form-control', placeholder: 'Batch size (BBL)', required: true
+
+  .card.mb-3
+    .card-header.bg-light.text-dark
+      %h4 Ingredients
+    .card-body
+      #ingredient-fields
+        = f.fields_for :recipe_ingredients do |ri|
+          .ingredient-group.d-flex.align-items-center.mb-2
+            = ri.hidden_field :_destroy, value: false
+            .w-50.pe-2
+              = ri.collection_select :ingredient_id, 
+                                     @company.ingredients.map,
+                                     :id,
+                                     :display_name,
+                                     { prompt: "Select Ingredient" }, 
+                                     { class: 'form-control ingredient-select' }
+            .w-25.pe-2
+              = ri.number_field :amount, step: 0.01, class: 'form-control', placeholder: 'Amount', required: true
+            .w-25
+              = ri.select :unit_of_measurement, RecipeIngredient::UNIT_MEASUREMENTS, { prompt: "Select Unit" }, class: 'form-select', required: true
+            .w-auto
+              %button.remove-ingredient.btn.btn-outline-danger(type="button") Remove
+
+      %br
+      %button#add-ingredient.btn.btn-outline-primary(type="button") Add Ingredient
+
+  .d-flex.justify-content-end.mt-3
+    = f.submit 'Save Recipe', class: 'btn btn-primary'

@@ -1,0 +1,213 @@
+/* Root Variables for Theme */
+:root {
+  --primary-color: #4caf50; /* Vibrant green for accents */
+  --secondary-color: #333; /* Dark gray for text */
+  --background-color: #f9f9f9; /* Light background */
+  --card-color: #fff; /* White for cards */
+  --hover-color: #388e3c; /* Darker green for hovers */
+  --danger-color: #e53935; /* Red for alerts */
+  --font-family: 'Roboto', sans-serif; /* Modern font */
+}
+
+/* General Body Styling */
+body {
+  background-color: var(--background-color);
+  font-family: var(--font-family);
+  color: var(--secondary-color);
+  margin: 0;
+  padding: 0;
+}
+
+/* Navbar */
+.navbar {
+  background-color: var(--secondary-color);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand {
+  color: var(--primary-color);
+  font-weight: bold;
+  font-size: 1.5rem;
+  text-transform: uppercase;
+}
+
+.navbar-nav .nav-link {
+  color: #f9f9f9;
+  transition: color 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover {
+  color: var(--hover-color);
+}
+
+.navbar-toggler {
+  border: none;
+  outline: none;
+}
+
+/* Dropdown Menu */
+.dropdown-menu {
+  background-color: var(--card-color);
+  border: none;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.dropdown-item {
+  color: var(--secondary-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.dropdown-item:hover {
+  background-color: var(--hover-color);
+  color: #fff;
+}
+
+/* Fix Extra Spacing Above Dashboard */
+h2.text-primary {
+  margin-top: 10px !important;
+}
+
+/* Cards */
+.card {
+  background-color: var(--card-color);
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  margin-bottom: 20px;
+}
+
+/* Adjustments for Key Metrics Section */
+.card-body h5 {
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+.card-body p {
+  font-size: 0.9rem;
+  color: var(--secondary-color);
+}
+
+/* Buttons */
+.btn {
+  background-color: var(--primary-color);
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  transition: background-color 0.3s ease, box-shadow 0.2s ease;
+}
+
+.btn:hover {
+  background-color: var(--hover-color);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn-danger {
+  background-color: var(--danger-color);
+  color: #fff;
+}
+
+.btn-danger:hover {
+  background-color: #d32f2f;
+}
+
+/* Search Section */
+form.mt-2 {
+  margin-bottom: 20px;
+}
+
+/* List Groups for Brews */
+.list-group-item {
+  background-color: var(--card-color);
+  border: 1px solid #ddd;
+  transition: all 0.2s ease-in-out;
+}
+
+.list-group-item:hover {
+  background-color: #f1f1f1;
+}
+
+/* Adjustments for Badges */
+.badge {
+  font-size: 0.85rem;
+  padding: 0.4rem 0.6rem;
+}
+
+.text-success {
+  color: #28a745 !important;
+}
+
+.text-warning {
+  color: #ffc107 !important;
+}
+
+.text-danger {
+  color: #dc3545 !important;
+}
+
+.text-primary {
+  color: var(--primary-color) !important;
+}
+
+/* Reduce Unnecessary Padding on the Main Container */
+.container-fluid {
+  max-width: 1200px;
+  margin: auto;
+  padding: 10px 20px 20px; /* Reduced top padding */
+}
+
+/* Ensure Active and Completed Brews Stack on Mobile */
+@media (max-width: 767px) {
+  .row.g-3 {
+    flex-direction: column !important;
+  }
+
+  .col-md-6 {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+}
+
+/* === MOBILE RESPONSIVENESS IMPROVEMENTS === */
+@media (max-width: 768px) {
+  /* Ensure Full-Width Layout on Mobile */
+  .container-fluid {
+    width: 100%;
+    max-width: none;
+    padding: 8px;
+  }
+
+  /* Navbar Adjustments */
+  .navbar-brand {
+    font-size: 1.3rem; /* Slightly smaller brand text */
+  }
+
+  .navbar-nav .nav-link {
+    font-size: 1rem; /* Ensure readable nav links */
+    padding: 10px;
+  }
+
+  /* Make Cards Feel More Mobile-Native */
+  .card {
+    padding: 12px;
+    margin: 10px 0;
+  }
+
+  /* Ensure Buttons Are Tap-Friendly */
+  .btn {
+    font-size: 16px;
+    padding: 12px 20px;
+  }
+
+  /* Make List Items Easier to Read */
+  .list-group-item {
+    font-size: 1rem;
+    padding: 12px;
+  }
+
+  /* Reduce Unnecessary Spacing in Forms */
+  form {
+    margin-bottom: 15px;
+  }
+}

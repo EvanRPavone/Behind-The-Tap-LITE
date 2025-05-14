@@ -1,0 +1,13 @@
+%h1 You are invited to join #{@company.name}
+
+%p
+  Hello #{@user.first_name} #{@user.last_name}, you have been invited to join #{@company.name} as a #{@user.role}.
+
+%p
+  To accept the invitation, please click the link below:
+
+%p
+  = link_to 'Accept Invitation', @invite_url
+
+%p
+  If you did not expect this invitation, please ignore this email.

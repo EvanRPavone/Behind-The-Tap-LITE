@@ -1,0 +1,44 @@
+- if logs.any?
+  .table-responsive
+    %table.table.table-striped.table-hover
+      %thead.table-light
+        %tr
+          %th User
+          %th Stage
+          %th Created At
+          %th Vorlauf Start
+          %th Vorlauf Complete
+          %th Sparge Start
+          %th Sparge Amount
+          %th Sparge Complete
+          %th Preboil Volume
+          %th Preboil Gravity
+          %th Preboil pH
+          %th Boil Achieved
+          %th Boil Complete
+          %th Post Boil Amount
+          %th Post Boil Gravity
+          %th Post Boil pH
+          %th Notes
+      %tbody
+        - logs.each do |log|
+          %tr
+            %td= log.user&.name || 'Unknown'
+            %td= log.stage.titleize
+            %td= log.created_at.strftime("%B %d, %Y %I:%M %p")
+            %td= log.vorlauf_start_time&.strftime("%B %d, %Y %I:%M %p") || 'N/A'
+            %td= log.vorlauf_complete_time&.strftime("%B %d, %Y %I:%M %p") || 'N/A'
+            %td= log.sparge_start_time&.strftime("%B %d, %Y %I:%M %p") || 'N/A'
+            %td= log.sparge_amount || 'N/A'
+            %td= log.sparge_complete_time&.strftime("%B %d, %Y %I:%M %p") || 'N/A'
+            %td= log.preboil_volume || 'N/A'
+            %td= log.preboil_gravity || 'N/A'
+            %td= log.preboil_ph || 'N/A'
+            %td= log.boil_achieved_time&.strftime("%B %d, %Y %I:%M %p") || 'N/A'
+            %td= log.boil_complete_time&.strftime("%B %d, %Y %I:%M %p") || 'N/A'
+            %td= log.post_boil_amount || 'N/A'
+            %td= log.post_boil_gravity || 'N/A'
+            %td= log.post_boil_ph || 'N/A'
+            %td= log.notes.presence || 'N/A'
+- else
+  %p.text-muted No boil logs available.

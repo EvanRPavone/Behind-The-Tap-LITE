@@ -1,0 +1,32 @@
+.card.shadow-sm.p-4
+  .card-body
+    %h2.text-primary.mb-3= "Vessel: #{@vessel.name}"
+
+    .row.g-3
+      .col-md-6
+        %p.mb-1
+          %strong Name:
+          = @vessel.name
+      .col-md-6
+        %p.mb-1
+          %strong Capacity (BBL):
+          = @vessel.size_bbl
+
+    .row.g-3.align-items-center
+      .col-md-6
+        %p.mb-1
+          %strong In Use:
+          - if @vessel.brews.active.any?
+            %span.badge.bg-success.text-white.ms-2 Yes
+          - else
+            %span.badge.bg-danger.text-white.ms-2 No
+
+    %hr/
+
+    .d-flex.justify-content-end.mt-3
+      = link_to edit_vessel_path(company_name: @company.slug, id: @vessel), class: 'btn btn-outline-secondary d-flex align-items-center gap-2' do
+        %i.fas.fa-edit
+        Edit Vessel
+      = link_to vessels_path(company_name: @company.slug), class: 'btn btn-primary d-flex align-items-center gap-2 ms-2' do
+        %i.fas.fa-arrow-left
+        Back to Vessels

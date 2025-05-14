@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  email: MyString
+  role: MyString
+  token: MyString
+  expires_at: 2024-11-01 12:26:38
+
+two:
+  email: MyString
+  role: MyString
+  token: MyString
+  expires_at: 2024-11-01 12:26:38

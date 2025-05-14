@@ -1,0 +1,16 @@
+!!!
+%html
+  %head
+    %meta{ content: "text/html; charset=UTF-8", "http-equiv" => "Content-Type" }
+  %body
+    %h1 Inventory Job Failure
+    %p Dear #{@company.name} Team,
+    %p
+      We encountered an issue while processing the inventory reduction for a brew:
+    %blockquote
+      %em= @error_message
+    %p
+      Please investigate the issue and ensure all records are up-to-date.
+    %p Thank you,
+    %br/
+    The Behind The Tap Team

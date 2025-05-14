@@ -1,0 +1,24 @@
+- if logs.any?
+  .table-responsive
+    %table.table.table-striped.table-hover
+      %thead.bg-light
+        %tr
+          %th Created By
+          %th Mash In Time
+          %th Mash Complete Time
+          %th Mash Temp
+          %th Mash pH
+          %th Notes
+          %th Logged At
+      %tbody
+        - logs.each do |log|
+          %tr
+            %td= log.user.name
+            %td= log.mash_in_time&.strftime("%B %d, %Y %I:%M %p") || 'N/A'
+            %td= log.mash_complete_time&.strftime("%B %d, %Y %I:%M %p") || 'N/A'
+            %td= log.mash_temp || 'N/A'
+            %td= log.mash_ph || 'N/A'
+            %td= log.notes.presence || 'No notes available'
+            %td= log.created_at.strftime("%B %d, %Y %I:%M %p")
+- else
+  %p.text-muted No mash logs available.

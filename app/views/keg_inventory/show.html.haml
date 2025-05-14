@@ -1,0 +1,73 @@
+/ ** Page Header **
+.d-flex.justify-content-between.align-items-center.mb-3
+  %h3.text-primary.mb-0= "Keg Inventory for #{@recipe.name}"
+  .d-flex.align-items-center.gap-3
+    = link_to keg_inventory_path(@company), class: "text-secondary text-decoration-none d-flex align-items-center gap-2" do
+      %i.fas.fa-arrow-left
+      Back to Keg Inventory
+
+%hr.mt-3/
+
+/ ** Owned Kegs Section **
+%h4.text-primary.mb-3 Owned Kegs
+- if @keg_sizes.present?
+  .table-responsive
+    %table.table.table-hover.table-bordered.text-center.shadow-sm
+      %thead.thead-light
+        %tr
+          %th Keg Size
+          %th Quantity
+      %tbody
+        - @keg_sizes.each do |size_label, count|
+          %tr
+            %td= size_label
+            %td= count
+- else
+  %p.text-muted.text-center No owned kegs for this recipe.
+
+%hr.mt-4/
+
+/ ** Shared Kegs Section **
+%h4.text-primary.mb-3 Shared Kegs
+- if @shared_kegs.any?
+  .table-responsive
+    %table.table.table-hover.table-bordered.text-center.shadow-sm
+      %thead.thead-light
+        %tr
+          %th Keg Size
+          %th Quantity
+          %th Shared With
+      %tbody
+        - @shared_kegs.each do |shared_keg|
+          %tr
+            %td= "#{shared_keg[:size]} gallons"
+            %td= shared_keg[:quantity]
+            %td= shared_keg[:shared_with]
+- else
+  %p.text-muted.text-center No shared kegs for this recipe.
+
+%hr.mt-4/
+
+/ ** Share Kegs Form **
+%h4.text-primary.mb-3 Share Kegs with Partners
+.card.shadow-sm.p-3
+  = form_with url: share_kegs_path, method: :post, local: true do |f|
+    = f.hidden_field :recipe_id, value: @recipe.id
+    .row.g-3
+      .col-md-4
+        .form-group
+          = f.label :share_with, "Share With:", class: "form-label fw-bold"
+          = f.select :share_with, options_from_collection_for_select(@partner_companies, :id, :name), {}, class: 'form-control'
+
+      .col-md-4
+        .form-group
+          = f.label :keg_size, "Keg Size:", class: "form-label fw-bold"
+          = f.select :keg_size, options_for_select([["Full Barrels", 15.5], ["Half Barrels", 7.75], ["Sixtels", 5.16]]), {}, class: 'form-control'
+
+      .col-md-4
+        .form-group
+          = f.label :quantity, "Quantity:", class: "form-label fw-bold"
+          = f.number_field :quantity, min: 1, class: 'form-control'
+
+    .mt-3.d-flex.justify-content-end
+      = f.submit "Share Kegs", class: 'btn btn-primary px-4'

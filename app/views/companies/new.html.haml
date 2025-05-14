@@ -1,0 +1,26 @@
+%h2.text-primary.mb-3= action_name == 'new' ? 'New Company' : 'Edit Company'
+
+.card.shadow-sm.p-4
+  .card-body
+    = form_with(model: @company, url: @company.persisted? ? company_path(@company) : companies_path, local: true) do |f|
+      - if @company.errors.any?
+        .alert.alert-danger
+          %h4= "#{pluralize(@company.errors.count, 'error')} prohibited this company from being saved:"
+          %ul.mb-0
+            - @company.errors.full_messages.each do |message|
+              %li= message
+
+      .row.g-3
+        .col-md-6
+          .form-group
+            = f.label :name, "Company Name", class: 'form-label fw-bold'
+            = f.text_field :name, class: 'form-control', placeholder: 'Enter Company Name'
+
+        .col-md-6
+          .form-group
+            = f.label :partner_ids, "Partner Companies", class: 'form-label fw-bold'
+            = f.collection_select :partner_ids, @available_partners, :id, :name, { prompt: "Select Partner Companies" }, { multiple: true, class: 'form-control' }
+
+      .mt-4.d-flex.justify-content-end.gap-3
+        = link_to 'Cancel', companies_path, class: 'btn btn-outline-secondary px-4'
+        = f.submit action_name == 'new' ? 'Create Company' : 'Update Company', class: 'btn btn-primary px-4'

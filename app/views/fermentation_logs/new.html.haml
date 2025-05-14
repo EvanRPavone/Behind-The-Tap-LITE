@@ -1,0 +1,66 @@
+%h2.text-primary New Fermentation Log Entry for Brew #{@brew.batch_no}
+
+= form_with model: @fermentation_log, url: brew_fermentation_logs_path(company_name: @brew.company.slug, brew_id: @brew), local: true do |f|
+  .card.shadow-sm.p-4
+    .card-body
+      .row.g-3
+        .col-md-6
+          .form-group
+            %label
+              = f.label :og_was, 'OG Was'
+              %i.fas.fa-info-circle.text-muted.ms-2{"data-bs-toggle" => "tooltip", "data-bs-placement" => "right", "data-bs-trigger" => "hover", "data-bs-delay" => '{"show":0,"hide":100}', title: @tooltip_text}
+            = f.number_field :og_was, step: 0.001, class: 'form-control'
+
+        .col-md-6
+          .form-group
+            = f.label :og_is, 'OG Is'
+            = f.number_field :og_is, step: 0.001, class: 'form-control'
+
+        .col-md-6
+          .form-group
+            = f.label :carbed_vol, 'Carbed Volume'
+            = f.number_field :carbed_vol, step: 0.01, class: 'form-control'
+
+        .col-md-6
+          .form-group
+            = f.label :status, 'Status'
+            = f.select :status, FermentationLog.statuses.keys.map { |s| [s.titleize, s] }, { prompt: 'Select Status' }, class: 'form-control'
+
+        .col-md-6
+          .form-group
+            = f.label :day, 'Day'
+            = f.number_field :day, class: 'form-control', placeholder: 'Day of Fermentation'
+
+        .col-md-6
+          .form-group
+            = f.label :plato, 'Plato'
+            = f.number_field :plato, step: 0.1, class: 'form-control', placeholder: 'Enter Plato Reading'
+
+        .col-md-6
+          .form-group
+            = f.label :ph, 'pH'
+            = f.number_field :ph, step: 0.01, class: 'form-control', placeholder: 'Enter pH Level'
+
+        .col-md-6
+          .form-group
+            = f.label :tank_temp, 'Tank Temperature'
+            = f.number_field :tank_temp, step: 0.1, class: 'form-control', placeholder: 'Enter Tank Temperature'
+
+        .col-md-6
+          .form-group
+            = f.label :action, 'Action'
+            = f.text_field :action, class: 'form-control', placeholder: 'Action taken (e.g., transfer, ingredient added)'
+
+        .col-md-6
+          .form-group
+            = f.label :log_date, 'Log Date'
+            = f.datetime_field :log_date, class: 'form-control'
+
+        .col-12
+          .form-group
+            = f.label :notes, 'Notes'
+            = f.text_area :notes, class: 'form-control', placeholder: 'Any additional notes'
+
+      .mt-4.text-center
+        = f.submit 'Add Fermentation Log', class: 'btn btn-primary px-4'
+        = link_to 'Cancel', brew_path(company_name: @brew.company.slug, id: @brew), class: 'btn btn-outline-secondary ms-2 px-4'
